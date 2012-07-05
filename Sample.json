@@ -1,0 +1,45 @@
+{
+	"settings": {
+		"width": 2880,
+		"height": 1800,
+		"samples": 0,
+		"depth": 10
+	}
+
+	"world": {
+		"sky": [1.0, 1.0, 1.0]
+	},
+	"camera": {
+		"type": "orthographic"
+	},
+	"objects": {
+		"ball": {
+			"surface": {
+				"type": "sphere",
+				"position": [200.0, 200.0, 0.0],
+				"radius": 100.0
+			},
+			"material": "0"
+		},
+		"ground": {
+			"surface": {
+				"type": "plane",
+				"position": [100.0, 10.0, 0.0],
+				"normal": [0.0, 1.0, -0.2]
+			},
+			"material": "0"
+		}
+	},
+	"lights": {
+		"main": {
+			"position": [1.0, 50.0, 10.0],
+			"intensity": [1.0, 1.0, 1.0]
+		}
+	},
+	"materials": {
+		"0": {
+			"diffuse": [1.0, 0.5, 0.0],
+			"reflect": 0.5
+		}
+	}
+}
