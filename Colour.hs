@@ -13,6 +13,7 @@ import Vector (VectorT)
 type Colour   = VectorT Double
 type Colour24 = VectorT Word8
 
+-- A colour is a vector in a colour space.
 type ColourT  = VectorT
 
 -- Convert a value (colour component) from linear RGB space to sRGB.

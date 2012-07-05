@@ -12,8 +12,8 @@
 	"camera": {
 		"type": "orthographic"
 	},
-	"objects": {
-		"ball": {
+	"objects": [
+		{
 			"surface": {
 				"type": "sphere",
 				"position": [200.0, 200.0, 0.0],
@@ -21,7 +21,7 @@
 			},
 			"material": "0"
 		},
-		"ground": {
+		{
 			"surface": {
 				"type": "plane",
 				"position": [100.0, 10.0, 0.0],
@@ -29,13 +29,13 @@
 			},
 			"material": "0"
 		}
-	},
-	"lights": {
-		"main": {
+	],
+	"lights": [
+		{
 			"position": [1.0, 50.0, 10.0],
 			"intensity": [1.0, 1.0, 1.0]
 		}
-	},
+	],
 	"materials": {
 		"0": {
 			"diffuse": [1.0, 0.5, 0.0],
