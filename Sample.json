@@ -4,7 +4,7 @@
 		"height": 1800,
 		"samples": 0,
 		"depth": 10
-	}
+	},
 
 	"world": {
 		"sky": [1.0, 1.0, 1.0]
