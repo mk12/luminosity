@@ -25,18 +25,24 @@ data Scene = Scene
     } deriving (Eq, Show)
 
 data Settings = Settings
-    { mWidth   :: Int
-    , mHeight  :: Int
-    , mSamples :: Int
-    , mDepth   :: Int
+    { mResolutionX :: Int
+    , mResolutionY :: Int
+    , mSamples     :: Int
+    , mDepth       :: Int
     } deriving (Eq, Show)
 
 data World = World
     { mSky :: Colour
     } deriving (Eq, Show)
 
-data Camera = Camera
-    { mType :: String
+data Camera = Orthographic
+    { mSight       :: Ray
+    , mUpward      :: Vector
+    , mOrthoScale  :: Scalar
+    }       | Perspective
+    { mSight       :: Ray
+    , mUpward      :: Vector
+    , mFocalLength :: Scalar
     } deriving (Eq, Show)
 
 data Object = Object
@@ -55,9 +61,16 @@ data Material = Material
     } deriving (Eq, Show)
 
 -- Calculate the ray to be launched through a given pixel from a camera.
-rayForPixel :: Camera -> Pixel -> Ray
-rayForPixel _ (x, y) = Ray (Vector (fromIntegral x) (fromIntegral y) 0) unitZ
--- rayForPixel (Camera "orthographic") (x, y)
+rayForPixel :: Camera -> Settings -> Pixel -> Ray
+rayForPixel _ _ (x, y) = Ray (Vector (fromIntegral x) (fromIntegral y) 0) unitZ
+-- rayForPixel (Orthographic (Ray origin look) upwards scale) (Settings w h _ _) (x, y)
+--     = Ray () look
+--   where
+--     u = look `cross` upwards
+--     aspect = w / h
+--     offsetX = x / w
+--     offsetY = y / h
+--     posX = 
 -- rayForPixel (Camera "perspective") (x, y)
 
 -- Calculate all the intersections made by a ray with a list of objects, and

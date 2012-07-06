@@ -36,13 +36,13 @@ instance JSON Scene where
     readJSON _ = fail "Scene must be an object."
 
 instance JSON Settings where
-    showJSON (Settings width height samples depth) = makeObj
-        [ ("width", showJSON width)
-        , ("height", showJSON height)
+    showJSON (Settings resolutionX resolutionY samples depth) = makeObj
+        [ ("resolution-x", showJSON resolutionX)
+        , ("resolution-y", showJSON resolutionY)
         , ("samples", showJSON samples)
         , ("depth", showJSON depth) ]
     readJSON (JSObject obj) = Settings
-        <$> f "width" <*> f "height" <*> f "samples" <*> f "depth"
+        <$> f "resolution-x" <*> f "resolution-y" <*> f "samples" <*> f "depth"
         where f x = mLookup x (fromJSObject obj) >>= readJSON
     readJSON _ = fail "Settings must be an object."
 
@@ -53,16 +53,35 @@ instance JSON World where
     readJSON _ = fail "World must be an object."
 
 instance JSON Camera where
-    showJSON (Camera thetype)  = makeObj [ ("type", showJSON thetype) ]
-    readJSON (JSObject obj) = Camera <$> f "type"
+    showJSON (Orthographic (Ray x d) upward orthoScale) = makeObj
+        [ ("projection", showJSON "orthographic")
+        , ("position", showJSON x)
+        , ("direction", showJSON d)
+        , ("upward", showJSON upward)
+        , ("ortho-scale", showJSON orthoScale) ]
+    showJSON (Perspective (Ray x d) upward focalLength) = makeObj
+        [ ("projection", showJSON "perspective")
+        , ("position", showJSON x)
+        , ("direction", showJSON d)
+        , ("upward", showJSON upward)
+        , ("focal-length", showJSON focalLength) ]
+    readJSON (JSObject obj) = case (f "projection") of
+        Ok "orthographic" -> Orthographic
+            <$> (Ray <$> (f "position") <*> (f "direction"))
+            <*> f "upwards" <*> f "ortho-scale"
+        Ok "perspective"  -> Perspective
+            <$> (Ray <$> (f "position") <*> (f "direction"))
+            <*> f "upwards" <*> f "focal-length"
+        Ok _              -> fail "Invalid Camera projection."
+        Error s           -> fail s
         where f x = mLookup x (fromJSObject obj) >>= readJSON
     readJSON _ = fail "Camera must be an object."
 
 instance JSON Object where
-    showJSON (Object surface materialid) = makeObj
+    showJSON (Object surface materialID) = makeObj
         [ ("surface", showJSON surface)
-        , ("material", showJSON materialid) ]
-    readJSON (JSObject obj) = Object <$> f "surface" <*> f "material"
+        , ("material-id", showJSON materialID) ]
+    readJSON (JSObject obj) = Object <$> f "surface" <*> f "material-id"
         where f x = mLookup x (fromJSObject obj) >>= readJSON
     readJSON _ = fail "Object must be an object."
 

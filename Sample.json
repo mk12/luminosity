@@ -1,7 +1,7 @@
 {
 	"settings": {
-		"width": 2880,
-		"height": 1800,
+		"resolution-x": 2880,
+		"resolution-y": 1800,
 		"samples": 0,
 		"depth": 10
 	},
@@ -10,7 +10,11 @@
 		"sky": [1.0, 1.0, 1.0]
 	},
 	"camera": {
-		"type": "orthographic"
+		"projection": "orthographic",
+		"position": [0, 0, -20],
+		"direction": [0, 0, 1],
+		"upward": [0, 1, 0],
+		"ortho-scale": 20
 	},
 	"objects": [
 		{
@@ -19,7 +23,7 @@
 				"position": [200.0, 200.0, 0.0],
 				"radius": 100.0
 			},
-			"material": "0"
+			"material-id": "0"
 		},
 		{
 			"surface": {
@@ -27,7 +31,7 @@
 				"position": [100.0, 10.0, 0.0],
 				"normal": [0.0, 1.0, -0.2]
 			},
-			"material": "0"
+			"material-id": "0"
 		}
 	],
 	"lights": [
