@@ -10,8 +10,8 @@ import Data.Word (Word8)
 
 import Vector
 
-type Colour   = VectorT Double
-type Colour24 = VectorT Word8
+type Colour   = ColourT Double
+type Colour24 = ColourT Word8
 
 -- A colour is a vector in a colour space.
 type ColourT  = VectorT
