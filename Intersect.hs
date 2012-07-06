@@ -29,8 +29,8 @@ extend t (Ray x d) = x <+> t *> d
 -- Calculate the normal vector of a point on a surface, where both the
 -- surface's position and the given point are relative to the same origin.
 normal :: Surface -> Vector -> Vector
-normal (Sphere c _) p   = normalize (p <-> c)
-normal (Plane  _ n) _   = n
+normal (Sphere c _) p = normalize (p <-> c)
+normal (Plane  _ n) _ = n
 
 -- Calculate the closest point of intersection of a surface and ray, expressed
 -- as the distance along the ray from the starting point.
