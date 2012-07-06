@@ -16,9 +16,10 @@ mLookup a as = maybe (fail $ "No such element: " ++ a) return (lookup a as)
 
 instance (JSON a, Num a) => JSON (VectorT a) where
     showJSON (Vector x y z) = showJSON [x, y, z]
-    readJSON x = do
-        [x, y, z] <- readJSON x
-        return $ Vector x y z
+    readJSON x = case readJSON x of
+        Ok [x, y, z] -> Ok $ Vector x y z
+        Ok _         -> fail "Vector is not a 3-element array."
+        Error s      -> fail s
 
 instance JSON Scene where
     showJSON (Scene settings world camera objects lights materials) = makeObj
@@ -32,6 +33,7 @@ instance JSON Scene where
         <$> f "settings" <*> f "world" <*> f "camera" <*> f "objects"
         <*> f "lights"   <*> f "materials"
         where f x = mLookup x (fromJSObject obj) >>= readJSON
+    readJSON _ = fail "Scene must be an object."
 
 instance JSON Settings where
     showJSON (Settings width height samples depth) = makeObj
@@ -42,16 +44,19 @@ instance JSON Settings where
     readJSON (JSObject obj) = Settings
         <$> f "width" <*> f "height" <*> f "samples" <*> f "depth"
         where f x = mLookup x (fromJSObject obj) >>= readJSON
+    readJSON _ = fail "Settings must be an object."
 
 instance JSON World where
     showJSON (World sky) = makeObj [ ("sky", showJSON sky) ]
     readJSON (JSObject obj) = World <$> f "sky"
         where f x = mLookup x (fromJSObject obj) >>= readJSON
+    readJSON _ = fail "World must be an object."
 
 instance JSON Camera where
     showJSON (Camera thetype)  = makeObj [ ("type", showJSON thetype) ]
     readJSON (JSObject obj) = Camera <$> f "type"
         where f x = mLookup x (fromJSObject obj) >>= readJSON
+    readJSON _ = fail "Camera must be an object."
 
 instance JSON Object where
     showJSON (Object surface materialid) = makeObj
@@ -59,6 +64,7 @@ instance JSON Object where
         , ("material", showJSON materialid) ]
     readJSON (JSObject obj) = Object <$> f "surface" <*> f "material"
         where f x = mLookup x (fromJSObject obj) >>= readJSON
+    readJSON _ = fail "Object must be an object."
 
 instance JSON Surface where
     showJSON (Sphere c r) = makeObj
@@ -72,7 +78,10 @@ instance JSON Surface where
     readJSON (JSObject obj) = case (f "type") of
         Ok "sphere" -> Sphere <$> f "position" <*> f "radius"
         Ok "plane"  -> Plane  <$> f "position" <*> f "normal"
+        Ok _        -> fail "Invalid Surface type."
+        Error s     -> fail s
         where f x = mLookup x (fromJSObject obj) >>= readJSON
+    readJSON _ = fail "Surface must be an object."
 
 instance JSON Light where
     showJSON (Light position intensity) = makeObj
@@ -80,6 +89,7 @@ instance JSON Light where
         , ("intensity", showJSON intensity) ]
     readJSON (JSObject obj) = Light <$> f "position" <*> f "intensity"
         where f x = mLookup x (fromJSObject obj) >>= readJSON
+    readJSON _ = fail "Light must be an object."
 
 instance JSON Material where
     showJSON (Material diffuse reflect) = makeObj
@@ -87,3 +97,4 @@ instance JSON Material where
         , ("reflect", showJSON reflect) ]
     readJSON (JSObject obj) = Material <$> f "diffuse" <*> f "reflect"
         where f x = mLookup x (fromJSObject obj) >>= readJSON
+    readJSON _ = fail "Material must be an object."
