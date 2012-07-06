@@ -57,6 +57,8 @@ data Material = Material
 -- Calculate the ray to be launched through a given pixel from a camera.
 rayForPixel :: Camera -> Pixel -> Ray
 rayForPixel _ (x, y) = Ray (Vector (fromIntegral x) (fromIntegral y) 0) unitZ
+-- rayForPixel (Camera "orthographic") (x, y)
+-- rayForPixel (Camera "perspective") (x, y)
 
 -- Calculate all the intersections made by a ray with a list of objects, and
 -- return the objects associated with the distance from the ray's origin.
