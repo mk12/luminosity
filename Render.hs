@@ -54,6 +54,7 @@ data Material = Material
     , mReflect :: Double
     } deriving (Eq, Show)
 
+-- Calculate the ray to be launched through a given pixel from a camera.
 rayForPixel :: Camera -> Pixel -> Ray
 rayForPixel _ (x, y) = Ray (Vector (fromIntegral x) (fromIntegral y) 0) unitZ
 
@@ -71,6 +72,7 @@ fstIntersection = (maybeMinBy (comparing snd) .) . intersections
 trace :: Scene -> Ray -> Colour
 trace scene@(Scene s w _ _ _ _) ray = trace' scene ray (mDepth s) 1.0 (mSky w)
 
+-- Recursive ray tracing implementation.
 trace' :: Scene -> Ray -> Int -> Double -> Colour -> Colour
 trace' _ _ 0 _ colour = colour
 trace' scene@(Scene _ _ _ objs lights mats) ray@(Ray _ d) level coef colour
