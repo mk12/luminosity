@@ -6,11 +6,11 @@ module Parse where
 
 import Control.Applicative ((<$>), (<*>))
 import Text.JSON
+    (JSON, JSValue(..), Result(..), fromJSObject, makeObj, readJSON, showJSON)
 
-import Intersect (Surface(..))
-import Render ( Scene(..), Settings(..), World(..), Camera(..)
-              , Object(..), Light(..), Material(..))
-import Vector (VectorT(..))
+import Intersect
+import Render
+import Vector
 
 mLookup a as = maybe (fail $ "No such element: " ++ a) return (lookup a as)
 

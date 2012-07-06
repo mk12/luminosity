@@ -8,7 +8,7 @@ module Colour
 
 import Data.Word (Word8)
 
-import Vector (VectorT)
+import Vector
 
 type Colour   = VectorT Double
 type Colour24 = VectorT Word8
