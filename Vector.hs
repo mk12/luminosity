@@ -30,7 +30,7 @@ instance Applicative VectorT where
 
 instance (Num a) => Monoid (VectorT a) where
     mempty  = vzero
-    mappend = (<*>) . (fmap (+))
+    mappend = (<+>)
 
 -- Calculate the sum of the components of a vector. This is not directly useful
 -- mathematically, but is used to implement other operators.
@@ -40,8 +40,8 @@ vsum (Vector x y z) = x + y + z
 -- Add and subtract two vectors component-wise.
 infixl 6 <+>, <->
 (<+>), (<->) :: (Num a) => VectorT a -> VectorT a -> VectorT a
-(<+>) = mappend
-(<->) = (. vnegate) . mappend
+(<+>) = (<*>) . fmap (+)
+(<->) = (<*>) . fmap (-)
 
 -- Scale a vector by a scalar value, that is multiply each component of the
 -- vector by the scalar.
@@ -52,7 +52,7 @@ infixl 8 *>
 -- Calculate the dot product, that is the scalar product, of two vectors.
 infixl 8 <.>
 (<.>) :: (Num a) => VectorT a -> VectorT a -> a
-(<.>) = (vsum .) . ((<*>) . (fmap (*)))
+(<.>) = (vsum .) . (<*>) . fmap (*)
 
 -- Calculate the cross product of two vectors.
 cross :: (Num a) => VectorT a -> VectorT a -> VectorT a
@@ -71,16 +71,16 @@ mag = sqrt . magSqr
 magSqr :: (Num a) => VectorT a -> a
 magSqr = vsum . fmap (^ 2)
 
--- Negate a vector, equivalent to multiplying it by -1. The negated vecto has
--- the same magnitude as the original, but has the opposite direction.
+-- Negate a vector (equivalent to multiplying it by -1). The negated vector has
+-- the same magnitude as the original, but points in the opposite direction.
 vnegate :: (Num a) => VectorT a -> VectorT a
 vnegate = fmap negate
 
--- Normalize a vector, that is make it's magnitude equal to one.
+-- Normalize a vector, that is make its magnitude equal to one.
 normalize :: (Floating a) => VectorT a -> VectorT a
 normalize = flip (/) . mag >>= fmap
 
--- Zero (null) vector and the unit vectors.
+-- The zero (null) vector and the unit vectors.
 vzero, unitX, unitY, unitZ :: (Num a) => VectorT a
 vzero = Vector 0 0 0
 unitX = Vector 1 0 0
