@@ -1,22 +1,15 @@
 -- Copyright 2012 Mitchell Kember.
 
 module Vector
-( Scalar
-, Vector
+( Scalar, Vector
 , VectorT(..)
-, (<+>)
-, (<->)
+, (<+>), (<->)
 , (*>)
-, (<.>)
-, cross
-, mag
-, magSqr
-, vnegate
-, normalize
+, (<.>), cross
+, mag, magSqr
+, vnegate, normalize
 , vzero
-, unitX
-, unitY
-, unitZ
+, unitX, unitY, unitZ
 ) where
 
 import Control.Applicative (Applicative, pure, (<$>), (<*>))
@@ -87,6 +80,7 @@ vnegate = fmap negate
 normalize :: (Floating a) => VectorT a -> VectorT a
 normalize = flip (/) . mag >>= fmap
 
+-- Zero (null) vector and the unit vectors.
 vzero, unitX, unitY, unitZ :: (Num a) => VectorT a
 vzero = Vector 0 0 0
 unitX = Vector 1 0 0
