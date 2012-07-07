@@ -13,8 +13,11 @@ import Data.Maybe (listToMaybe)
 
 import Vector
 
-data Ray     = Ray Vector Vector
-             deriving (Eq, Show)
+-- An arrow in space represented by an origin vector and a direction vector,
+-- in other words a line which extends to infinite in only one direction.
+data Ray = Ray Vector Vector deriving (Eq, Show)
+
+-- A geometric representation which a ray can intersect with.
 data Surface = Sphere Vector Scalar
              | Plane  Vector Vector
              deriving (Eq, Show)
@@ -30,11 +33,12 @@ extend t (Ray x d) = x <+> t *> d
 -- Calculate the normal vector of a point on a surface, where both the
 -- surface's position and the given point are relative to the same origin.
 normal :: Surface -> Vector -> Vector
-normal (Sphere c _) p = normalize (p <-> c)
+normal (Sphere c _) x = normalize (x <-> c)
 normal (Plane  _ n) _ = n
 
 -- Calculate the closest point of intersection of a surface and ray, expressed
 -- as the distance along the ray from the starting point.
+-- Note: The direction vector of the ray must be normalized.
 intersect :: Surface -> Ray -> Maybe Scalar
 intersect (Sphere p r) (Ray x d)
     | disc < 0  = Nothing
@@ -42,7 +46,7 @@ intersect (Sphere p r) (Ray x d)
   where
     xo   = x <-> p
     b    = 2 * d <.> xo
-    c    = magSqr xo - r ^ 2
+    c    = xo <.> xo - r ^ 2
     disc = b ^ 2 - 4 * c
     root = sqrt disc
     q    | b < 0  = (-root - b) / 2
