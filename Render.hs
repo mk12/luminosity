@@ -13,7 +13,7 @@ import Intersect
 import Misc (maybeMinBy)
 import Vector
 
-type Pixel = (Int, Int)
+type Pixel = (Scalar, Scalar)
 
 data Scene = Scene
     { mSettings  :: Settings
@@ -61,23 +61,24 @@ data Material = Material
     } deriving (Eq, Show)
 
 -- Calculate the ray to be launched through a given pixel from a camera.
+-- Non-integral pixel coordinates can be used for oversampling.
 rayForPixel :: Camera -> Settings -> Pixel -> Ray
-rayForPixel (Orthographic (Ray c look) up scale) (Settings resX resY _ _) (x, y)
-    = Ray (c <+> v *> up <+> u *> horiz) look
+rayForPixel (Orthographic (Ray c look) up scale) settings (x, y) = Ray
+    (c <+> v *> up <+> u *> up >< look) look
   where
-    horiz  = up `cross` look
+    resX   = fromIntegral (mResolutionX settings)
+    resY   = fromIntegral (mResolutionY settings)
     k      = scale / 2
-    aspect = fromIntegral resX / fromIntegral resY
-    v      = k - fromIntegral y / fromIntegral resY * scale
-    u      = aspect * (-k + fromIntegral x / fromIntegral resX * scale)
-rayForPixel (Perspective (Ray c look) up length) (Settings resX resY _ _) (x, y)
-    = Ray start (normalize $ start <-> focus)
+    v      = k - y / resY * scale
+    u      = -k * resX / resY + scale * x / resY
+rayForPixel (Perspective (Ray c look) up length) settings (x, y) = Ray
+    start (normalize $ start <-> focus)
   where
-    horiz  = up `cross` look
-    aspect = fromIntegral resX / fromIntegral resY
-    v      = 0.5 - fromIntegral y / fromIntegral resY
-    u      = fromIntegral x / fromIntegral resX - 0.5
-    start  = c <+> v *> up <+> u *> horiz
+    resX   = fromIntegral (mResolutionX settings)
+    resY   = fromIntegral (mResolutionY settings)
+    v      = 0.5 - y / resY
+    u      = (x - resX / 2) / resY
+    start  = c <+> v *> up <+> u *> up >< look
     focus  = c <-> length *> look
 
 -- Calculate all the intersections made by a ray with a list of objects, and
@@ -105,7 +106,7 @@ trace' scene@(Scene _ _ _ objs lights mats) ray@(Ray _ d) level coef colour
             n = normal (mSurface obj) x
             (Just mat) = M.lookup (mMaterialID obj) mats
             cs = map ((fmap (* coef)) . applyLight mat x n objs) $ lights
-            reflected = Ray x $ d <-> (2 * (d <.> n)) *> n
+            reflected = Ray x $ normalize $ d <-> (2 * (d <.> n)) *> n
             in trace' scene reflected (level - 1) (coef * mReflect mat)
                 (foldr mappend colour cs)
 
