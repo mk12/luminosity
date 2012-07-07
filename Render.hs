@@ -65,7 +65,7 @@ rayForPixel :: Camera -> Settings -> Pixel -> Ray
 rayForPixel (Orthographic (Ray c look) up scale) (Settings resX resY _ _) (x, y)
     = Ray (c <+> v *> up <+> u *> horiz) look
   where
-    horiz  = look `cross` up
+    horiz  = up `cross` look
     k      = scale / 2
     aspect = fromIntegral resX / fromIntegral resY
     v      = k - fromIntegral y / fromIntegral resY * scale
@@ -73,7 +73,7 @@ rayForPixel (Orthographic (Ray c look) up scale) (Settings resX resY _ _) (x, y)
 rayForPixel (Perspective (Ray c look) up length) (Settings resX resY _ _) (x, y)
     = Ray start (normalize $ start <-> focus)
   where
-    horiz  = look `cross` up
+    horiz  = up `cross` look
     aspect = fromIntegral resX / fromIntegral resY
     v      = 0.5 - fromIntegral y / fromIntegral resY
     u      = fromIntegral x / fromIntegral resX - 0.5
