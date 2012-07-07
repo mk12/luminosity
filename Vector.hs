@@ -5,7 +5,7 @@ module Vector
 , VectorT(..)
 , (<+>), (<->)
 , (*>)
-, (<.>), cross
+, (<.>), (><)
 , mag, magSqr
 , vnegate, normalize
 , vzero
@@ -55,8 +55,9 @@ infixl 8 <.>
 (<.>) = (vsum .) . (<*>) . fmap (*)
 
 -- Calculate the cross product of two vectors.
-cross :: (Num a) => VectorT a -> VectorT a -> VectorT a
-cross (Vector x1 y1 z1) (Vector x2 y2 z2) = Vector
+infixl 9 ><
+(><) :: (Num a) => VectorT a -> VectorT a -> VectorT a
+(Vector x1 y1 z1) >< (Vector x2 y2 z2) = Vector
     (y1 * z2 - z1 * y2)
     (z1 * x2 - x1 * z2)
     (x1 * y2 - y1 * x2)
