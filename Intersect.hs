@@ -13,16 +13,16 @@ import Data.Maybe (listToMaybe)
 
 import Vector
 
--- An arrow in space represented by an origin vector and a direction vector,
--- in other words a line which extends to infinite in only one direction.
+-- A ray is an arrow in euclidean space represented by an origin vector and a
+-- direction vector. It is a line which extends infintely in only one direction.
 data Ray = Ray Vector Vector deriving (Eq, Show)
 
--- A geometric representation which a ray can intersect with.
+-- A surface is a simple geometrical object in euclidean space.
 data Surface = Sphere Vector Scalar
              | Plane  Vector Vector
              deriving (Eq, Show)
 
--- Extremely small value to prevent problems caused by floating point error.
+-- An extremely small value to prevent problems caused by floating point error.
 epsilon :: (Fractional a) => a
 epsilon = 10e-10
 
@@ -30,7 +30,7 @@ epsilon = 10e-10
 extend :: Scalar -> Ray -> Vector
 extend t (Ray x d) = x <+> t *> d
 
--- Calculate the normal vector of a point on a surface, where both the
+-- Calculate the normal unit vector of a point on a surface, where both the
 -- surface's position and the given point are relative to the same origin.
 normal :: Surface -> Vector -> Vector
 normal (Sphere c _) x = normalize (x <-> c)
