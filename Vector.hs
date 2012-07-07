@@ -33,7 +33,7 @@ instance (Num a) => Monoid (VectorT a) where
     mappend = (<+>)
 
 -- Calculate the sum of the components of a vector. This is not directly useful
--- mathematically, but is used to implement other operators.
+-- mathematically, but it is used to implement other operators.
 vsum :: (Num a) => VectorT a -> a
 vsum (Vector x y z) = x + y + z
 
@@ -45,7 +45,7 @@ infixl 6 <+>, <->
 
 -- Scale a vector by a scalar value, that is multiply each component of the
 -- vector by the scalar.
-infixl 8 *>
+infixl 7 *>
 (*>) :: (Num a) => a -> VectorT a -> VectorT a
 (*>) = fmap . (*)
 
