@@ -63,15 +63,22 @@ data Material = Material
 -- Calculate the ray to be launched through a given pixel from a camera.
 rayForPixel :: Camera -> Settings -> Pixel -> Ray
 rayForPixel (Orthographic (Ray c look) up scale) (Settings resX resY _ _) (x, y)
-    = Ray (c <+> dy *> up <+> dx *> horiz) look
+    = Ray (c <+> v *> up <+> u *> horiz) look
   where
     horiz  = look `cross` up
     k      = scale / 2
     aspect = fromIntegral resX / fromIntegral resY
-    dy     = k - fromIntegral y / fromIntegral resY * scale
-    dx     = aspect * (-k + fromIntegral x / fromIntegral resX * scale)
-rayForPixel (Perspective (Ray c look) up scale) (Settings resX resY _ _) (x, y)
-    = Ray c look
+    v      = k - fromIntegral y / fromIntegral resY * scale
+    u      = aspect * (-k + fromIntegral x / fromIntegral resX * scale)
+rayForPixel (Perspective (Ray c look) up length) (Settings resX resY _ _) (x, y)
+    = Ray start (normalize $ start <-> focus)
+  where
+    horiz  = look `cross` up
+    aspect = fromIntegral resX / fromIntegral resY
+    v      = 0.5 - fromIntegral y / fromIntegral resY
+    u      = fromIntegral x / fromIntegral resX - 0.5
+    start  = c <+> v *> up <+> u *> horiz
+    focus  = c <-> length *> look
 
 -- Calculate all the intersections made by a ray with a list of objects, and
 -- return the objects associated with the distance from the ray's origin.
