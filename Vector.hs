@@ -22,7 +22,7 @@ type Vector = VectorT Scalar
 data VectorT a = Vector !a !a !a deriving(Eq, Show)
 
 instance Functor VectorT where
-   fmap f (Vector x y z) = Vector (f x) (f y) (f z)
+    fmap f (Vector x y z) = Vector (f x) (f y) (f z)
 
 instance Applicative VectorT where
     pure x = Vector x x x
