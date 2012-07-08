@@ -60,6 +60,8 @@ data Material = Material
     , mReflect :: Double
     } deriving (Eq, Show)
 
+-- render :: Scene -> 
+
 -- Calculate the ray to be launched through a given pixel from a camera.
 -- Non-integral pixel coordinates can be used for oversampling.
 rayForPixel :: Camera -> Settings -> Pixel -> Ray
@@ -69,15 +71,15 @@ rayForPixel (Orthographic (Ray c look) up scale) settings (x, y) = Ray
     resX   = fromIntegral (mResolutionX settings)
     resY   = fromIntegral (mResolutionY settings)
     k      = scale / 2
-    v      = k - y / resY * scale
-    u      = -k * resX / resY + scale * x / resY
+    v      = k - scale * (y + 0.5) / resY
+    u      = -k * resX / resY + scale * (x + 0.5) / resY
 rayForPixel (Perspective (Ray c look) up length) settings (x, y) = Ray
     start (normalize $ start <-> focus)
   where
     resX   = fromIntegral (mResolutionX settings)
     resY   = fromIntegral (mResolutionY settings)
-    v      = 0.5 - y / resY
-    u      = (x - resX / 2) / resY
+    v      = 0.5 - (y + 0.5) / resY
+    u      = (x + 0.5 - resX / 2) / resY
     start  = c <+> v *> up <+> u *> up >< look
     focus  = c <-> length *> look
 
