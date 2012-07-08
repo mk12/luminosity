@@ -64,9 +64,11 @@ data Material = Material
 
 -- Calculate the ray to be launched through a given pixel from a camera.
 -- Non-integral pixel coordinates can be used for oversampling.
+-- Note: the direction of the camera's sight ray and its upward vector must
+-- be normalized.
 rayForPixel :: Camera -> Settings -> Pixel -> Ray
 rayForPixel (Orthographic (Ray c look) up scale) settings (x, y) = Ray
-    (c <+> v *> up <+> u *> up >< look) look
+    (c <+> v *> up <+> u *> normalize (up >< look)) look
   where
     resX   = fromIntegral (mResolutionX settings)
     resY   = fromIntegral (mResolutionY settings)
@@ -80,7 +82,7 @@ rayForPixel (Perspective (Ray c look) up length) settings (x, y) = Ray
     resY   = fromIntegral (mResolutionY settings)
     v      = 0.5 - (y + 0.5) / resY
     u      = (x + 0.5 - resX / 2) / resY
-    start  = c <+> v *> up <+> u *> up >< look
+    start  = c <+> v *> up <+> u *> normalize (up >< look)
     focus  = c <-> length *> look
 
 -- Calculate all the intersections made by a ray with a list of objects, and
