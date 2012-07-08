@@ -95,21 +95,22 @@ fstIntersection = (maybeMinBy (comparing snd) .) . intersections
 
 -- Trace a ray through a scene and compute the final colour for that ray.
 trace :: Scene -> Ray -> Colour
-trace scene@(Scene s w _ _ _ _) ray = trace' scene ray (mDepth s) 1.0 (mSky w)
+trace scene ray = trace' scene ray (mDepth $ mSettings scene) 1.0 mempty
 
 -- Recursive ray tracing implementation.
 trace' :: Scene -> Ray -> Int -> Double -> Colour -> Colour
 trace' _ _ 0 _ colour = colour
-trace' scene@(Scene _ _ _ objs lights mats) ray@(Ray _ d) level coef colour
+trace' _ _ _ 0 colour = colour
+trace' scene@(Scene _ w _ objs lights mats) ray@(Ray _ d) level coef colour
     = case fstIntersection objs ray of
-        Nothing       -> colour
+        Nothing       -> mSky w
         Just (obj, t) -> let
-            x = extend t ray
-            n = normal (mSurface obj) x
-            (Just mat) = M.lookup (mMaterialID obj) mats
-            cs = map ((fmap (* coef)) . applyLight mat x n objs) $ lights
-            reflected = Ray x $ normalize $ d <-> (2 * (d <.> n)) *> n
-            in trace' scene reflected (level - 1) (coef * mReflect mat)
+            mat = mats M.! mMaterialID obj
+            x   = extend t ray
+            n   = normal (mSurface obj) x
+            cs  = map (fmap (* coef) . applyLight mat x n objs) lights
+            ref = Ray x $ normalize $ d <-> (2 * (d <.> n)) *> n
+            in trace' scene ref (level - 1) (coef * mReflect mat)
                 (foldr mappend colour cs)
 
 -- Compute the colour that a light contributes at a particular point.
@@ -118,6 +119,6 @@ applyLight mat point n objs (Light x c)
     | lambert <= 0 || shadow = mempty
     | otherwise = ((*) . (* lambert)) <$> c <*> (mDiffuse mat)
   where
-    delta  = normalize (x <-> point)
+    delta   = normalize (x <-> point)
     lambert = delta <.> n
     shadow  = not . null $ intersections objs (Ray point delta)
