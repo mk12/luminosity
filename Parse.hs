@@ -1,6 +1,14 @@
 -- Copyright 2012 Mitchell Kember.
 
 -- Note: install Text.JSON with "cabal install json --ghc-options=-DMAP_AS_DICT"
+-- TODO: enforce:
+--   depth must be positive / above zero
+--   all material IDs must be present
+--   resolution must be positive and nonzero
+--   samples must be positive
+--   colours must be clamped
+--   camera look and upward must form a right angle
+--   reflect parameter on material must be clamped
 
 module Parse where
 
