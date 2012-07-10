@@ -1,8 +1,6 @@
 -- Copyright 2012 Mitchell Kember.
 
 -- Note: install Text.JSON with "cabal install json --ghc-options=-DMAP_AS_DICT"
--- TODO: enforce:
---   colours, reflect must be clamped
 
 module Parse () where
 
@@ -12,7 +10,7 @@ import Text.JSON
 import qualified Data.Map as M
 
 import Intersect
-import Render
+import Trace
 import Vector
 
 lookupM :: (Monad m) => String -> [(String, a)] -> m a
@@ -108,9 +106,9 @@ instance JSON Surface where
         [ ("type", showJSON "sphere")
         , ("position", showJSON c)
         , ("radius", showJSON r) ]
-    showJSON (Plane x n) = makeObj
+    showJSON (Plane p n) = makeObj
         [ ("type", showJSON "plane")
-        , ("position", showJSON x)
+        , ("position", showJSON p)
         , ("normal", showJSON n) ]
     readJSON (JSObject obj) = case (f "type") of
         Ok "sphere" -> Sphere <$> f "position" <*> f "radius"
