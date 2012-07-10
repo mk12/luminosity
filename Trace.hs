@@ -17,7 +17,7 @@ import Data.Monoid (mappend, mempty)
 import Data.Ord (comparing)
 import qualified Data.Map as M
 
-import Colour
+import Colour (Colour)
 import Intersect
 import Misc (maybeMinBy)
 import Vector
@@ -74,7 +74,7 @@ trace scene ray = trace' scene ray (mDepth $ mSettings scene) 1.0 mempty
 -- Calculate all the intersections made by a ray with a list of objects, and
 -- return the objects associated with the distance from the ray's origin.
 intersections :: [Object] -> Ray -> [(Object, Scalar)]
-intersections xs r = mapMaybe (\x -> fmap ((,) x) (intersect (mSurface x) r)) xs
+intersections xs r = mapMaybe (\x -> fmap ((,) x) (mSurface x `intersect` r)) xs
 
 -- Calculate the closest intersection made by a ray with a list of objects, and
 -- return the object associated with the distance from the ray's origin.
@@ -85,24 +85,24 @@ fstIntersection = (maybeMinBy (comparing snd) .) . intersections
 trace' :: Scene -> Ray -> Int -> Double -> Colour -> Colour
 trace' _ _ 0 _ colour = colour
 trace' _ _ _ 0 colour = colour
-trace' scene@(Scene _ w _ objs lights mats) ray@(Ray _ d) level coef colour
+trace' scene@(Scene _ world _ objs lights mats) ray@(Ray _ d) level coef colour
     = case fstIntersection objs ray of
-        Nothing       -> mSky w
+        Nothing       -> mSky world
         Just (obj, t) -> let
             mat = mats M.! mMaterialID obj
             x   = extend t ray
             n   = normal (mSurface obj) x
             cs  = map (fmap (* coef) . applyLight mat x n objs) lights
-            ref = Ray x $ normalize $ d <-> (2 * (d <.> n)) *> n
+            ref = Ray x $ normalize $ d <-> 2 * d <.> n *> n
             in trace' scene ref (level - 1) (coef * mReflect mat)
-                (foldr mappend colour cs)
+                $ foldr mappend colour cs
 
 -- Compute the colour that a light source contributes at a particular point.
 applyLight :: Material -> Vector -> Vector -> [Object] -> Light -> Colour
 applyLight mat point n objs (Light x c)
     | lambert <= 0 || shadow = mempty
-    | otherwise = ((*) . (* lambert)) <$> c <*> (mDiffuse mat)
+    | otherwise = (*) . (* lambert) <$> c <*> mDiffuse mat
   where
-    delta   = normalize (x <-> point)
-    lambert = delta <.> n
-    shadow  = not . null $ intersections objs (Ray point delta)
+    light   = normalize (x <-> point)
+    lambert = light <.> n
+    shadow  = not . null $ intersections objs (Ray point light)
