@@ -15,6 +15,7 @@ import Vector
 
 -- A Euclidean half-line with an initial point (represented by a positon vector)
 -- which extends infinitely in one direction (represented by a unit vector).
+-- Note: All functions assume that the direction vector is normalized.
 data Ray = Ray Vector Vector deriving (Eq, Show)
 
 -- A simple geometrical solid in three-dimensional Euclidean space.
@@ -37,7 +38,6 @@ normal (Plane  _ n) _ = n
 
 -- Calculate the closest point of intersection of a surface and ray, expressed
 -- as the distance along the ray from the starting point.
--- Note: The direction vector of the ray must be normalized.
 intersect :: Surface -> Ray -> Maybe Scalar
 intersect (Sphere p r) (Ray x d)
     | disc < 0  = Nothing

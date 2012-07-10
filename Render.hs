@@ -12,8 +12,6 @@ type Pixel = (Scalar, Scalar)
 
 -- Calculate the ray to be launched through a given pixel from a camera.
 -- Non-integral pixel coordinates can be used for oversampling.
--- Note: the direction of the camera's sight ray and its upward vector must
--- be normalized.
 rayForPixel :: Camera -> Settings -> Pixel -> Ray
 rayForPixel (Orthographic (Ray c look) up scale) settings (x, y) = Ray
     (c <+> v *> up <+> u *> normalize (up >< look)) look
