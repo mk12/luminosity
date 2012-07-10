@@ -1,6 +1,15 @@
 -- Copyright 2012 Mitchell Kember.
 
-module Trace (trace) where
+module Trace
+( Scene(..)
+, Settings(..)
+, World(..)
+, Camera(..)
+, Object(..)
+, Light(..)
+, Material(..)
+, trace
+) where
 
 import Control.Applicative ((<$>), (<*>))
 import Data.Maybe (mapMaybe)

@@ -106,9 +106,9 @@ instance JSON Surface where
         [ ("type", showJSON "sphere")
         , ("position", showJSON c)
         , ("radius", showJSON r) ]
-    showJSON (Plane p n) = makeObj
+    showJSON (Plane x n) = makeObj
         [ ("type", showJSON "plane")
-        , ("position", showJSON p)
+        , ("position", showJSON x)
         , ("normal", showJSON n) ]
     readJSON (JSObject obj) = case (f "type") of
         Ok "sphere" -> Sphere <$> f "position" <*> f "radius"
