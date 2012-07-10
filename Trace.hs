@@ -13,7 +13,7 @@ module Trace
 
 import Control.Applicative ((<$>), (<*>))
 import Data.Maybe (mapMaybe)
-import Data.Monoid (mappend, mempty)
+import Data.Monoid (mconcat, mempty)
 import Data.Ord (comparing)
 import qualified Data.Map as M
 
@@ -95,7 +95,7 @@ trace' scene@(Scene _ world _ objs lights mats) ray@(Ray _ d) level coef colour
             cs  = map (fmap (* coef) . applyLight mat x n objs) lights
             ref = Ray x $ normalize $ d <-> 2 * d <.> n *> n
             in trace' scene ref (level - 1) (coef * mReflect mat)
-                $ foldr mappend colour cs
+                $ mconcat (colour:cs)
 
 -- Compute the colour that a light source contributes at a particular point.
 applyLight :: Material -> Vector -> Vector -> [Object] -> Light -> Colour
