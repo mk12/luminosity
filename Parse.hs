@@ -112,7 +112,7 @@ instance JSON Surface where
         , ("normal", showJSON n) ]
     readJSON (JSObject obj) = case (f "type") of
         Ok "sphere" -> Sphere <$> f "position" <*> f "radius"
-        Ok "plane"  -> Plane  <$> f "position" <*> f "normal"
+        Ok "plane"  -> Plane  <$> f "position" <*> fmap normalize (f "normal")
         Ok _        -> fail "Invalid Surface type."
         Error s     -> fail s
         where f x = lookupM x (fromJSObject obj) >>= readJSON
