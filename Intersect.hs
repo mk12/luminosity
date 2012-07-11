@@ -48,8 +48,8 @@ intersect (Sphere p r) (Ray x d)
     c    = xo <.> xo - r ^ 2
     disc = b ^ 2 - 4 * c
     root = sqrt disc
-    q    | b <  0 = (-root - b) / 2
-         | b >= 0 = ( root - b) / 2
+    q    | b < 0     = (-root - b) / 2
+         | otherwise = ( root - b) / 2
     ts   = [q, c / q]
 intersect (Plane p n) (Ray x d)
     | dot >= 0  = Nothing
