@@ -13,7 +13,7 @@ module Trace
 
 import Control.Applicative ((<$>), (<*>))
 import Data.Maybe (mapMaybe)
-import Data.Monoid (mconcat, mempty)
+import Data.Monoid ((<>), mconcat, mempty)
 import Data.Ord (comparing)
 import qualified Data.Map as M
 
@@ -69,7 +69,7 @@ data Material = Material
 
 -- Trace a ray through a scene and compute the final colour for that ray.
 trace :: Scene -> Ray -> Colour
-trace scene ray = trace' scene ray (mDepth $ mSettings scene) 1.0 mempty
+trace scene ray = trace' scene ray (mDepth $ mSettings scene) 1.0
 
 -- Calculate all the intersections made by a ray with a list of objects, and
 -- return the objects associated with the distance from the ray's origin.
@@ -82,20 +82,19 @@ fstIntersection :: [Object] -> Ray -> Maybe (Object, Scalar)
 fstIntersection = (maybeMinBy (comparing snd) .) . intersections
 
 -- Recursively compute the colour for a ray.
-trace' :: Scene -> Ray -> Int -> Double -> Colour -> Colour
-trace' _ _ 0 _ colour = colour
-trace' _ _ _ 0 colour = colour
-trace' scene@(Scene _ world _ objs lights mats) ray@(Ray _ d) level coef colour
+trace' :: Scene -> Ray -> Int -> Double -> Colour
+trace' _ _ 0 _ = mempty
+trace' _ _ _ 0 = mempty
+trace' scene@(Scene _ world _ objs lights mats) ray@(Ray _ d) level coef
     = case fstIntersection objs ray of
         Nothing       -> mSky world
         Just (obj, t) -> let
             mat = mats M.! mMaterialID obj
             x   = extend t ray
             n   = normal (mSurface obj) x
-            cs  = map (fmap (* coef) . applyLight mat x n objs) lights
+            col = mconcat $ map (fmap (* coef) . applyLight mat x n objs) lights
             ref = Ray x $ normalize $ d <-> 2 * d <.> n *> n
-            in trace' scene ref (level - 1) (coef * mReflect mat)
-                $ mconcat (colour:cs)
+            in col <> trace' scene ref (level - 1) (coef * mReflect mat)
 
 -- Compute the colour that a light source contributes at a particular point.
 applyLight :: Material -> Vector -> Vector -> [Object] -> Light -> Colour
