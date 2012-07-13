@@ -69,7 +69,7 @@ data Material = Material
 
 -- Trace a ray through a scene and compute the final colour for that ray.
 trace :: Scene -> Ray -> Colour
-trace scene ray = trace' scene ray (mDepth $ mSettings scene) 1.0
+trace scene ray = trace' scene ray (mDepth $ mSettings scene)
 
 -- Calculate all the intersections made by a ray with a list of objects, and
 -- return the objects associated with the distance from the ray's origin.
@@ -82,26 +82,29 @@ fstIntersection :: [Object] -> Ray -> Maybe (Object, Scalar)
 fstIntersection = (maybeMinBy (comparing snd) .) . intersections
 
 -- Recursively compute the colour for a ray.
-trace' :: Scene -> Ray -> Int -> Double -> Colour
-trace' _ _ 0 _ = mempty
-trace' _ _ _ 0 = mempty
-trace' scene@(Scene _ world _ objs lights mats) ray@(Ray _ d) level coef
+trace' :: Scene -> Ray -> Int -> Colour
+trace' _ _ 0 = mempty
+trace' scene@(Scene _ world _ objs lights mats) ray@(Ray _ d) level
     = case fstIntersection objs ray of
         Nothing       -> mSky world
         Just (obj, t) -> let
             mat = mats M.! mMaterialID obj
             x   = extend t ray
             n   = normal (mSurface obj) x
-            col = mconcat $ map (fmap (* coef) . applyLight mat x n objs) lights
+            col = mconcat . map (lighting mat x n objs) $ lights
             ref = Ray x $ normalize $ d <-> 2 * d <.> n *> n
-            in col <> trace' scene ref (level - 1) (coef * mReflect mat)
+            r   = mReflect mat
+            in case r of
+                0 -> col
+                _ -> col <> r *> trace' scene ref (level - 1)
 
 -- Compute the colour that a light source contributes at a particular point.
-applyLight :: Material -> Vector -> Vector -> [Object] -> Light -> Colour
-applyLight mat point n objs (Light x c)
-    | lambert <= 0 || shadow = mempty
+lighting :: Material -> Vector -> Vector -> [Object] -> Light -> Colour
+lighting mat p n objs (Light x c)
+    | lambert <= 0 || not (null ints) = mempty
     | otherwise = (*) . (* lambert) <$> c <*> mDiffuse mat
   where
-    light   = normalize (x <-> point)
-    lambert = light <.> n
-    shadow  = not . null $ intersections objs (Ray point light)
+    d       = normalize $ x <-> p
+    lambert = d <.> n
+    shadow  = Ray p d
+    ints    = filter ((<= norm (x <-> p)) . snd) $ intersections objs shadow
