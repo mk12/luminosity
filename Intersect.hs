@@ -52,7 +52,8 @@ intersect (Sphere p r) (Ray x d)
          | otherwise = ( root - b) / 2
     ts   = [q, c / q]
 intersect (Plane p n) (Ray x d)
-    | dot >= 0  = Nothing
-    | otherwise = Just $ n <.> (p <-> x) / dot
+    | dot >= 0 || t < 0 = Nothing
+    | otherwise         = Just t
   where
     dot = d <.> n
+    t   = n <.> (p <-> x) / dot
