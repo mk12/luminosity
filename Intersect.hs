@@ -8,6 +8,7 @@ module Intersect
 , intersect
 ) where
 
+import Control.Monad (guard)
 import Data.List (sort)
 import Data.Maybe (listToMaybe)
 
@@ -20,7 +21,7 @@ data Ray = Ray Vector Vector deriving (Eq, Show)
 
 -- A simple geometrical solid in three-dimensional Euclidean space.
 data Surface = Sphere Vector Scalar
-             | Plane  Vector Vector
+             | Plane  Vector Scalar
              deriving (Eq, Show)
 
 -- An extremely small value to prevent problems caused by floating point error.
@@ -34,7 +35,7 @@ extend t (Ray x v) = x <+> t *> v
 -- Calculate the normal unit vector of a point on a surface.
 normal :: Surface -> Vector -> Vector
 normal (Sphere c _) x = normalize (x <-> c)
-normal (Plane  _ n) _ = n
+normal (Plane  n _) _ = n
 
 -- Calculate the closest point of intersection of a surface and ray, expressed
 -- as the distance along the ray from the starting point.
@@ -51,9 +52,7 @@ intersect (Sphere p r) (Ray x v)
     q    | b < 0     = (-root - b) / 2
          | otherwise = ( root - b) / 2
     ts   = [q, c / q]
-intersect (Plane p n) (Ray x v)
-    | dot >= 0 || t < 0 = Nothing
-    | otherwise         = Just t
+intersect (Plane n d) (Ray x v) = guard (vn /= 0 && t >= 0) >> return t
   where
-    dot = v <.> n
-    t   = n <.> (p <-> x) / dot
+    vn = v <.> n
+    t  = (vnegate x <.> n + d) / vn
