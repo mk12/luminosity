@@ -18,7 +18,7 @@ type Colour24 = ColourT Word8
 -- An RGB colour, a three-dimensional vector in a colour space.
 type ColourT  = VectorT
 
--- Clip a colour to the maximum intensity of 1 (saturation operator).
+-- Clip a colour to a maximum intensity of 1 in each channel.
 saturation :: (Fractional a, Ord a) => ColourT a -> ColourT a
 saturation = fmap $ min 1
 
