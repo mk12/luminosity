@@ -26,5 +26,5 @@ sRGB x | x <= 0.0031308 = 12.92 * x
 sRGB24 :: (RealFloat a) => ColourT a -> Colour24
 -- TODO: implement an exposure operator (tone mapping) rather than
 -- using a saturation operator (clipping: min 1).
--- (min 255 is just a precaution to avoid colours wrapping/inverting)
-sRGB24 = fmap $ round . min 255 . (* 255) . sRGB . min 1
+-- (max 0 . min 255 is just a precaution to avoid colours wrapping/inverting)
+sRGB24 = fmap $ round . max 0 . min 255 . (* 255) . sRGB . min 1
