@@ -84,19 +84,19 @@ fstIntersection = (maybeMinBy (comparing snd) .) . intersections
 -- Recursively compute the colour for a ray.
 trace' :: Scene -> Ray -> Int -> Colour
 trace' _ _ 0 = mempty
-trace' scene@(Scene _ world _ objs lights mats) ray@(Ray _ d) level
+trace' scene@(Scene _ world _ objs lights mats) ray@(Ray _ v) level
     = case fstIntersection objs ray of
         Nothing       -> mSky world
         Just (obj, t) -> let
-            mat = mats M.! mMaterialID obj
-            x   = extend t ray
-            n   = normal (mSurface obj) x
-            col = mconcat . map (lighting mat x n objs) $ lights
-            ref = Ray x $ normalize $ d <-> 2 * d <.> n *> n
-            r   = mReflect mat
-            in case r of
+            mat  = mats M.! mMaterialID obj
+            x'   = extend t ray
+            n    = normal (mSurface obj) x'
+            col  = mconcat . map (lighting mat x' n objs) $ lights
+            ray' = Ray x' $ normalize $ v <-> 2 * v <.> n *> n
+            ref  = mReflect mat
+            in case ref of
                 0 -> col
-                _ -> col <> r *> trace' scene ref (level - 1)
+                _ -> col <> ref *> trace' scene ray' (level - 1)
 
 -- Compute the colour that a light source contributes at a particular point.
 lighting :: Material -> Vector -> Vector -> [Object] -> Light -> Colour

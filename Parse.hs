@@ -64,16 +64,16 @@ instance JSON World where
     readJSON _ = fail "World must be an object."
 
 instance JSON Camera where
-    showJSON (Orthographic (Ray x d) upward orthoScale) = makeObj
+    showJSON (Orthographic (Ray x v) upward orthoScale) = makeObj
         [ ("projection", showJSON "orthographic")
         , ("position", showJSON x)
-        , ("direction", showJSON d)
+        , ("direction", showJSON v)
         , ("upward", showJSON upward)
         , ("ortho-scale", showJSON orthoScale) ]
-    showJSON (Perspective (Ray x d) upward focalLength) = makeObj
+    showJSON (Perspective (Ray x v) upward focalLength) = makeObj
         [ ("projection", showJSON "perspective")
         , ("position", showJSON x)
-        , ("direction", showJSON d)
+        , ("direction", showJSON v)
         , ("upward", showJSON upward)
         , ("focal-length", showJSON focalLength) ]
     readJSON (JSObject obj) = case (f "projection") of
