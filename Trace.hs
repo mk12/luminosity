@@ -94,17 +94,16 @@ trace' scene@(Scene _ world _ objs lights mats) ray@(Ray _ v) level
             col  = mconcat . map (lighting mat x' n objs) $ lights
             ray' = Ray x' $ normalize $ v <-> 2 * v <.> n *> n
             ref  = mReflect mat
-            in case ref of
-                0 -> col
-                _ -> col <> ref *> trace' scene ray' (level - 1)
+            in if ref == 0 then col
+                else col <> ref *> trace' scene ray' (level - 1)
 
 -- Compute the colour that a light source contributes at a particular point.
 lighting :: Material -> Vector -> Vector -> [Object] -> Light -> Colour
 lighting mat p n objs (Light x c)
     | lambert <= 0 || not (null ints) = mempty
-    | otherwise = (*) . (* lambert) <$> c <*> mDiffuse mat
+    | otherwise = (*) <$> lambert *> c <*> mDiffuse mat
   where
-    d       = normalize $ x <-> p
-    lambert = d <.> n
-    shadow  = Ray p d
-    ints    = filter ((<= norm (x <-> p)) . snd) $ intersections objs shadow
+    shadow  = normalize $ x <-> p
+    lambert = shadow <.> n
+    ints    = filter ((<= norm (x <-> p)) . snd)
+            $ intersections objs (Ray p shadow)
