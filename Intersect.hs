@@ -52,7 +52,7 @@ intersect (Sphere p r) (Ray x v)
     q    | b < 0     = (-root - b) / 2
          | otherwise = ( root - b) / 2
     ts   = [q, c / q]
-intersect (Plane n d) (Ray x v) = guard (vn /= 0 && t >= 0) >> return t
+intersect (Plane n d) (Ray x v) = guard (vn < 0 && t >= 0) >> return t
   where
     vn = v <.> n
     t  = (vnegate x <.> n + d) / vn
