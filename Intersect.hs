@@ -8,7 +8,6 @@ module Intersect
 , intersect
 ) where
 
-import Control.Monad (guard)
 import Data.List (sort)
 import Data.Maybe (listToMaybe)
 
@@ -34,7 +33,7 @@ extend t (Ray x v) = x <+> t *> v
 
 -- Calculate the normal unit vector of a point on a surface.
 normal :: Surface -> Vector -> Vector
-normal (Sphere c _) x = normalize (x <-> c)
+normal (Sphere c _) x = normalize $ x <-> c
 normal (Plane  n _) _ = n
 
 -- Calculate the closest point of intersection of a surface and ray, expressed
@@ -52,7 +51,9 @@ intersect (Sphere p r) (Ray x v)
     q    | b < 0     = (-root - b) / 2
          | otherwise = ( root - b) / 2
     ts   = [q, c / q]
-intersect (Plane n d) (Ray x v) = guard (vn < 0 && t >= 0) >> return t
+intersect (Plane n d) (Ray x v)
+    | vn >= 0 || t < 0 = Nothing
+    | otherwise        = Just t
   where
     vn = v <.> n
     t  = (vnegate x <.> n + d) / vn
