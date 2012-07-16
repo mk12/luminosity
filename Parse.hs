@@ -14,7 +14,7 @@ import Trace
 import Vector
 
 lookupM :: (Monad m) => String -> [(String, a)] -> m a
-lookupM a as = maybe (fail $ "No such element: " ++ a) return (lookup a as)
+lookupM a as = maybe (fail $ "Missing element: " ++ a) return (lookup a as)
 
 ensure :: (Monad m) => (a -> Bool) -> String -> a -> m a
 ensure p s x | p x       = return x
