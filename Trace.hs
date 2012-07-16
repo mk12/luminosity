@@ -74,7 +74,7 @@ trace scene ray = trace' scene ray (mDepth $ mSettings scene)
 -- Calculate all the intersections made by a ray with a list of objects, and
 -- return the objects associated with the distance from the ray's origin.
 intersections :: [Object] -> Ray -> [(Object, Scalar)]
-intersections xs r = mapMaybe (\x -> fmap ((,) x) (mSurface x `intersect` r)) xs
+intersections xs r = mapMaybe (fmap . (,)) xs
 
 -- Calculate the closest intersection made by a ray with a list of objects, and
 -- return the object associated with the distance from the ray's origin.
@@ -105,5 +105,6 @@ lighting mat p n objs (Light x c)
   where
     shadow  = normalize $ x <-> p
     lambert = shadow <.> n
-    ints    = filter ((<= norm (x <-> p)) . snd)
+    dist    = norm $ x <-> p
+    ints    = filter ((<= dist) . snd)
             $ intersections objs (Ray p shadow)
