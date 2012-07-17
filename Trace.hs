@@ -81,7 +81,7 @@ intersections xs r = mapMaybe (\x -> fmap ((,) x) (mSurface x `intersect` r)) xs
 fstIntersection :: [Object] -> Ray -> Maybe (Object, Scalar)
 fstIntersection = (maybeMinBy (comparing snd) .) . intersections
 
--- Recursively compute the colour for a ray.
+-- Recursively compute the colour for a ray by tracing it through a scene.
 trace' :: Scene -> Ray -> Int -> Colour
 trace' _ _ 0 = mempty
 trace' scene@(Scene _ world _ objs lights mats) ray@(Ray _ v) level

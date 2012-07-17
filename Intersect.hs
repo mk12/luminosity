@@ -13,8 +13,9 @@ import Data.Maybe (listToMaybe)
 
 import Vector
 
--- A Euclidean half-line with an initial point (represented by a positon vector)
--- which extends infinitely in one direction (represented by a unit vector).
+-- A three-dimensional Euclidean half-line with an initial point (represented by
+-- a positon vector) which extends infinitely in one direction (represented by a
+-- unit vector).
 -- Note: All functions assume that the direction vector is normalized.
 data Ray = Ray Vector Vector deriving (Eq, Show)
 
