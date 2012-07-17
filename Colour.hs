@@ -2,16 +2,19 @@
 
 module Colour
 ( Colour
+, Colour24
 , ColourT
+, VectorT(..)
 , saturation
 , sRGB24
 ) where
 
 import Data.Word (Word8)
 
-import Vector (VectorT)
+import Vector (VectorT(..))
 
 type Colour   = ColourT Double
+type Colour24 = ColourT Word8
 
 -- An RGB colour, a three-dimensional vector in a colour space.
 type ColourT  = VectorT
@@ -30,5 +33,5 @@ sRGB x | x <= 0.0031308 = 12.92 * x
 -- clipped. If necessary, the colour should have already undergone a saturation
 -- or tone mapping operation--the clipping in this function exists only as a
 -- precaution to avoid any error causing the values to wrap around.
-sRGB24 :: (RealFloat a) => ColourT a -> ColourT Word8
+sRGB24 :: (RealFloat a) => ColourT a -> Colour24
 sRGB24 = fmap $ round . max 0 . min 255 . (* 255) . sRGB
