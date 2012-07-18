@@ -1,6 +1,17 @@
+# Build files and binary
+build/
+a.out
+luminosity
+
+# Haskell profiling
+*.prof
+
+# Images
+*.tga
+!Sample.tga
+
+# OS-generated files
 .DS_Store*
 ehthumbs.db
 Icon?
 Thumbs.db
-
-a.out
