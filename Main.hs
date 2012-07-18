@@ -37,12 +37,13 @@ files input output = do
             export (mSettings scene) (render scene)
         Error s  -> putStrLn s
 
+-- Decide on the program's execution path based on the arguments.
+args :: [String] -> IO ()
+args ["-h"]     = putStrLn =<< usage
+args ["--help"] = putStrLn =<< usage
+args [x, y]     = files x y
+args [x]        = files x x
+args _          = hPutStrLn stderr =<< usage
+
 main :: IO ()
-main = do
-    args <- getArgs
-    case args of
-        ["-h"]     -> putStrLn =<< usage
-        ["--help"] -> putStrLn =<< usage
-        [x, y]     -> files x y
-        [x]        -> files x x
-        _          -> hPutStrLn stderr =<< usage
+main = getArgs >>= args
