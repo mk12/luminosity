@@ -24,13 +24,13 @@ For functions with short names, put the first guard on the same line and align s
 
 #### Where Bindings
 
-If a single `where` binding is needed for a short function, put it all on one line if possible. If not, indent it four spaces on the next line. If there are multiple `where` bindings, indent the `where` keyword *2 spaces* on its own line, and each binding on its own line indented by *4 spaces*.
+If a single `where` binding is needed for a short function, put it all on one line if possible. If not, indent it four spaces on the next line. If there are multiple `where` bindings, indent the `where` keyword **2 spaces** on its own line, and each binding on its own line indented by *4 spaces*.
 
-If there are multiple equations (patterns) for a function and one has multiple `where` bindings, use the same style for all of them (where on a line by itself, even for just one binding).
+If there are multiple equations (patterns) for a function and one has multiple `where` bindings, use the same style for every equation (`where` on a line by itself, even for just one binding).
 
 ---
 
-Some examples:
+Some examples of correct indentation:
 
 ```haskell
 chisqr :: (Fractional a) => [a] -> [a] -> a
@@ -223,7 +223,7 @@ Write proper sentences: start with a capital letter and use proper punctuation. 
 
 ### Top-Level Definitions
 
-Comment every top-level function (particularly exported functions). For function comments, use the imperative tense, e.g. "Send the ..." rather than "Send**s** the ...". Always use `-- ` comments, not block comments. Use plain comments: this project does not use Haddock syntax, for now.
+Comment every top-level function (particularly exported functions). For function comments, use the imperative tense, e.g. "Send the ..." rather than "Send**s** the ...". Always use `-- ` comments, not block comments. *Use plain comments*: this project does not use Haddock syntax, for now.
 
 Function documentation should give enough information to apply the function without looking at its definition.
 
