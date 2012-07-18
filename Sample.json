@@ -1,0 +1,97 @@
+{
+	"settings": {
+		"resolution-x": 1920,
+		"resolution-y": 1080,
+		"samples": 0,
+		"depth": 10
+	},
+
+	"world": {
+		"sky": [1, 1, 1]
+	},
+	"camera": {
+		"projection": "perspective",
+		"position": [0, 2.25, -15],
+		"direction": [0, 0, 1],
+		"upward": [0, 1, 0],
+		"focal-length": 3
+	},
+	"objects": [
+		{
+			"surface": {
+				"type": "sphere",
+				"position": [0, 2.75, 0],
+				"radius": 1
+			},
+			"material-id": "yellow"
+		},
+		{
+			"surface": {
+				"type": "sphere",
+				"position": [-1, 1, 0],
+				"radius": 1
+			},
+			"material-id": "blue"
+		},
+		{
+			"surface": {
+				"type": "sphere",
+				"position": [1, 1, 0],
+				"radius": 1
+			},
+			"material-id": "purple"
+		},
+		{
+			"surface": {
+				"type": "plane",
+				"normal": [0, 1, 0],
+				"distance": 0
+			},
+			"material-id": "mirror"
+		},
+		{
+			"surface": {
+				"type": "plane",
+				"normal": [1, 0, -1],
+				"distance": -2
+			},
+			"material-id": "mirror"
+		},
+		{
+			"surface": {
+				"type": "plane",
+				"normal": [-1, 0, -1],
+				"distance": -2
+			},
+			"material-id": "mirror"
+		}
+	],
+	"lights": [
+		{
+			"position": [5, 8, -5],
+			"intensity": [1, 1, 1]
+		},
+		{
+			"position": [-5, 4, -3],
+			"intensity": [0.25, 0.4, 0.1]
+		}
+	],
+	"materials": {
+		"yellow": {
+			"diffuse": [0.8, 0.75, 0],
+			"reflect": 0.2
+		},
+		"blue": {
+			"diffuse": [0, 0.65, 1],
+			"reflect": 0.2
+		},
+		"purple": {
+			"diffuse": [0.8, 0, 1],
+			"reflect": 0.2
+		},
+		"mirror": {
+			"diffuse": [0.5, 0.5, 0.5],
+			"reflect": 0.4
+		}
+	}
+}
