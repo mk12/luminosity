@@ -4,7 +4,7 @@ module Main (main) where
 
 import Control.Monad ((=<<))
 import System.Environment (getArgs, getProgName)
-import System.FilePath (FilePath, replaceExtension)
+import System.FilePath (replaceExtension)
 import System.IO (hPutStrLn, stderr)
 import Text.JSON (Result(..), decode)
 import qualified Data.ByteString.Lazy as L
