@@ -14,9 +14,8 @@ module Vector
 , unitX, unitY, unitZ
 ) where
 
-import Control.Applicative (Applicative, pure, (<$>), (<*>))
+import Control.Applicative (Applicative, pure, (<*>))
 import Control.Monad.Instances
-import Data.Binary (Binary, get, put)
 import Data.Monoid (Monoid, mappend, mempty)
 
 -- Type synonyms for scalar and vector values to create an abstraction layer for
@@ -26,10 +25,6 @@ type Vector = VectorT Scalar
 
 -- A three-dimensional Euclidean vector. 
 data VectorT a = Vector !a !a !a deriving (Eq, Bounded, Read, Show)
-
-instance (Binary a) => Binary (VectorT a) where
-    put (Vector x y z) = put x >> put y >> put z
-    get = Vector <$> get <*> get <*> get
 
 instance Functor VectorT where
     fmap f (Vector x y z) = Vector (f x) (f y) (f z)

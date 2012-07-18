@@ -1,34 +1,36 @@
 -- Copyright 2012 Mitchell Kember.
 
-module Export (savePng) where
+module Export (export) where
 
--- import Data.Array
+import Data.Monoid ((<>), mconcat)
+import qualified Data.ByteString.Lazy as L
 
-import Data.Bits (shiftR, xor)
-import Data.Digest.CRC32 (crc32)
--- import Data.List
-import Data.Word ()
-import qualified Codec.Compression.Zlib as Z
-import qualified Data.Binary.Builder as B
-import qualified Data.ByteString.Lazy as S
-import qualified Data.ByteString.Lazy.Char8 as C
+import Blaze.ByteString.Builder
+    ( Builder, fromWord8s, fromWrite, toLazyByteString
+    , writeWord16le, writeWord8 )
 
--- be8 :: Word8 -> B.ByteString
--- be8 = B.singleton
--- 
--- be32 :: Word32 -> B.ByteString
--- be32 x = B.pack [fromIntegral (x `shiftR` sh) | sh <- [24, 16, 8, 0]]
--- be32 x = B.pack
+import Colour (Colour24, VectorT(..))
+import Trace (Settings, mResolutionX, mResolutionY)
 
-infixr 4 <>
-(<>) = B.append
+-- Convert a 24-bit colour to a builder in the channel order of RGB.
+fromColourRGB :: Colour24 -> Builder
+fromColourRGB (Vector r g b) = fromWrite $
+    writeWord8 r <> writeWord8 g <> writeWord8 b
 
-header, hdr, dat, end :: B.ByteString
-header = B.pack [137, 80, 78, 71, 13, 10, 26, 10]
-(hdr, dat, end) = map C.pack ["IHDR", "IDAT", "IEND"]
+-- Convert a 24-bit colour to a builder in the channel order of BGR.
+fromColourBGR :: Colour24 -> Builder
+fromColourBGR (Vector r g b) = fromWrite $
+    writeWord8 b <> writeWord8 g <> writeWord8 r
 
-chunk :: S.ByteString -> S.ByteString -> Builder
-chunk tag xs = B.putWord32be (fromIntegral $ S.length xs)
-            <> B.fromLazyByteString dat
-            <> B.fromLazyByteString $ B.putWord32be (crc32 dat)
-    where dat = S.append tag xs
+-- Create the header for a TGA image using the resolution found in the settings.
+tgaHeader :: Settings -> Builder
+tgaHeader settings
+    = (fromWord8s [0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0] <>) $ fromWrite
+    $  writeWord16le (fromIntegral (mResolutionX settings))
+    <> writeWord16le (fromIntegral (mResolutionY settings))
+    <> writeWord8 24 <> writeWord8 32
+
+-- Export a rendered scene to a TGA file as a lazy ByteString.
+export :: Settings -> [Colour24] -> L.ByteString
+export settings cs = toLazyByteString $
+    tgaHeader settings <> mconcat (map fromColourBGR cs)
