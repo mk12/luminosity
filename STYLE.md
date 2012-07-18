@@ -221,6 +221,8 @@ Comments
 
 Write proper sentences: start with a capital letter and use proper punctuation. Wrap to the same line length as the code, and do not use hyphenation.
 
+When referring to data types which are a common noun, do *not* capitalize them (e.g., "Add two vectors", not "Add two Vectors").
+
 ### Top-Level Definitions
 
 Comment every top-level function (particularly exported functions). For function comments, use the imperative tense, e.g. "Send the ..." rather than "Send**s** the ...". Always use `-- ` comments, not block comments. *Use plain comments*: this project does not use Haddock syntax, for now.
