@@ -2,11 +2,11 @@
 
 usage() {
 cat <<EOS
-usage: $0 [-tpw]
+Usage: $0 [-tpw]
 
 This script compiles Luminosity using GHC.
 
-OPTIONS:
+Options:
   -h    Show this message
   -t    Compile with -threaded (parallelized)
   -p    Compile with -prof (for profiling)
