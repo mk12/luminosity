@@ -22,7 +22,7 @@ ensure p s x | p x       = return x
 
 instance (JSON a, Num a) => JSON (VectorT a) where
     showJSON (Vector x y z) = showJSON [x, y, z]
-    readJSON x = case readJSON x of
+    readJSON v = case readJSON v of
         Ok [x, y, z] -> Ok $ Vector x y z
         Ok _         -> fail "Vector is not a 3-element array."
         Error s      -> fail s
