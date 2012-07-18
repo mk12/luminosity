@@ -8,8 +8,8 @@ This script compiles Luminosity using GHC.
 
 Options:
   -h    Show this message
-  -t    Compile with -threaded (parallelized)
-  -p    Compile with -prof (for profiling)
+  -t    Compile with -threaded for parallelism
+  -p    Compile with profiling enabled
   -w    Compile with -Wall (warnings)
 EOS
 }
