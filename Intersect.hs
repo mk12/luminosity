@@ -15,13 +15,14 @@ import Vector
 
 -- A three-dimensional Euclidean half-line with an initial point (represented by
 -- a positon vector) which extends infinitely in one direction (represented by a
--- unit vector).
+-- unit vector). The two vectors are in the same order as just described.
+--
 -- Note: All functions assume that the direction vector is normalized.
 data Ray = Ray Vector Vector deriving (Eq, Show)
 
 -- A simple geometrical solid in three-dimensional Euclidean space.
-data Surface = Sphere Vector Scalar
-             | Plane  Vector Scalar
+data Surface = Sphere Vector Scalar  -- center, radius
+             | Plane  Vector Scalar  -- normal, distance from origin
              deriving (Eq, Show)
 
 -- An extremely small value to prevent problems caused by floating point error.
