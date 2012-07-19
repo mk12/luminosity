@@ -54,7 +54,7 @@ Insert one blank line between top-level definitions. No blank lines between type
 
 ### Whitespace
 
-**Always** surround binary operators with a single space on each side. This includes sections (i.e., `(+ 1)` rather than `(+1)`). Don't insert a space between a lambda backslash and the first parameter.
+**Always** surround binary operators with a single space on each side. This includes sections (i.e. `(+ 1)` rather than `(+1)`). Don't insert a space between a lambda backslash and the first parameter.
 
 ### Function Type Signatures
 
@@ -214,7 +214,7 @@ Put a blank line between each group of imports. The imports in each group should
 
 Always use explicit import lists or `qualified` imports for standard and third party libraries. This makes the code more robust against changes in these libraries. Exception: The Prelude.
 
-Use explicit import lists for local imports if only a few things are being imported. If one specific function is being used, definitely use an import list. If nearly every function is used or the functionality of the module as a whole is needed or could be needed (e.g. `import Vector` to use vector math operators), then do not use an import list. Use your judgement.
+Use explicit import lists for local imports if only a few things are being imported. If one specific function is being used, definitely use an import list. If nearly every function is used or the functionality of the module as a whole is needed or could be needed (e.g., `import Vector` to use vector math operators), then do not use an import list. Use your judgement.
 
 Comments
 --------
@@ -225,7 +225,7 @@ When referring to data types which are a common noun, do *not* capitalize them (
 
 ### Top-Level Definitions
 
-Comment every top-level function (particularly exported functions). For function comments, use the imperative tense, e.g. "Send the ..." rather than "Send**s** the ...". Always use `-- ` comments, not block comments. *Use plain comments*: this project does not use Haddock syntax, for now.
+Comment every top-level function (particularly exported functions). For function comments, use the imperative tense, e.g., "Send the ..." rather than "Send**s** the ...". Always use `-- ` comments, not block comments. *Use plain comments*: this project does not use Haddock syntax, for now.
 
 Function documentation should give enough information to apply the function without looking at its definition.
 
@@ -247,11 +247,11 @@ types.
 
 For readability reasons, don't capitalize all letters when using an
 abbreviation. For example, write `HttpServer` instead of
-`HTTPServer`. Exception: Two letter abbreviations, e.g. `IO`.
+`HTTPServer`. Exception: Two letter abbreviations, e.g., `IO`.
 
 ### Modules
 
-Use singular when naming modules e.g. use `Data.Map` and
+Use singular when naming modules, e.g., use `Data.Map` and
 `Data.ByteString.Internal` instead of `Data.Maps` and
 `Data.ByteString.Internals`.
 
