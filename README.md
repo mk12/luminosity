@@ -1,7 +1,7 @@
 Luminosity
 ==========
 
-![Sample Luminosity render](https://github.com/mk12/Luminosity/blob/master/Sample.tga)
+![Sample Luminosity render](https://github.com/mk12/Luminosity/blob/master/Sample.tga?raw=true)
 
 Luminosity is a simple and elegant ray tracer written in Haskell.
 
@@ -28,7 +28,7 @@ Compile Luminosity using the `build.sh` script. This will produce a `build` fold
 * `-p`: Compile with profiling enabled
 * `-w`: Compile with `-Wall` (warnings)
 
-If you want to compile it yourself, take a look inside [build.sh][] to see the command it uses.
+If you want to compile it yourself, take a look at the end of [build.sh][] to see the command it uses.
 
 [build.sh]: https://github.com/mk12/Luminosity/blob/master/build.sh
 
@@ -41,7 +41,7 @@ To render a scene, run the `luminosity` executable:
 ./luminosity Scene.json Image.tga
 ```
 
-You can leave out the file extensions if you wish. You can also leave out the second argument—in this case, the image would then be written to `Scene.tga`.
+You can leave out the file extensions if you want. You can also leave out the second argument—in this case, the image would then be written to `Scene.tga`.
 
 Scene Input
 -----------
@@ -52,8 +52,8 @@ To learn how to write scenes for Luminosity, check out the [Sample][] scene and 
 
 Of special note, all colours and vectors are specified as 3-element arrays. Colour channels are floating-point (0.0–1.0, not 0–255). The width (and aspect ratio) of the camera is dependant on the resolution in the settings, while the height remains constant. `ortho-scale` is used to increase the size of an orthographic camera, and for perspective cameras, simply move it further back or adjust the `focal-length`.
 
-[Sample]: Sample.json
-[Parse]: Parse.hs
+[Sample]: https://github.com/mk12/Luminosity/blob/master/Sample.json
+[Parse]: https://github.com/mk12/Luminosity/blob/master/Parse.hs
 
 Image Output
 ------------
