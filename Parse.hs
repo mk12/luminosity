@@ -1,7 +1,5 @@
 -- Copyright 2012 Mitchell Kember.
 
--- Note: install Text.JSON with "cabal install json --ghc-options=-DMAP_AS_DICT"
-
 module Parse () where
 
 import Control.Applicative ((<$>), (<*>))
