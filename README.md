@@ -1,14 +1,14 @@
 Luminosity
 ==========
 
-![Sample Luminosity render](https://github.com/mk12/Luminosity/blob/master/Sample.tga?raw=true)
-
 Luminosity is a simple and elegant ray tracer written in Haskell.
+
+![Sample Luminosity render](http://i.imgur.com/y1a0A.png)
 
 Dependencies
 ------------
 
-Before compiling, you need to get Luminosity's dependencies.
+Before compiling, get Luminosity's dependencies.
 
 ```sh
 cabal install json --ghc-options=-DMAP_AS_DICT
@@ -20,7 +20,7 @@ If you already have JSON, make sure to `--reinstall` with the `MAP_AS_DICT` opti
 Compiling
 ---------
 
-Compile Luminosity using the `build.sh` script. This will produce a `build` folder and a `luminosity` executable.
+Use the `build.sh` script. This will produce a `build` folder and a `luminosity` executable.
 
 ### Options
 
@@ -28,7 +28,7 @@ Compile Luminosity using the `build.sh` script. This will produce a `build` fold
 * `-p`: Compile with profiling enabled
 * `-w`: Compile with `-Wall` (warnings)
 
-If you want to compile it yourself, take a look at the end of [build.sh][] to see the command it uses.
+If you want to compile yourself, take a look at the end of [build.sh][] to see the command it uses.
 
 [build.sh]: https://github.com/mk12/Luminosity/blob/master/build.sh
 
@@ -50,7 +50,7 @@ Rather than introducing some custom format, Luminosity uses JSON to describe a s
 
 To learn how to write scenes for Luminosity, check out the [Sample][] scene and the [Parse][] module.
 
-Of special note, all colours and vectors are specified as 3-element arrays. Colour channels are floating-point (0.0–1.0, not 0–255). The width (and aspect ratio) of the camera is dependant on the resolution in the settings, while the height remains constant. `ortho-scale` is used to increase the size of an orthographic camera, and for perspective cameras, simply move it further back or adjust the `focal-length`.
+Of special note, all colours and vectors are specified as 3-element arrays. Colour channels are floating-point (0.0–1.0, not 0–255). The width (and aspect ratio) of the camera is dependant on the resolution in the settings, while the height remains constant. Use `ortho-scale` to increase the size of an orthographic camera, and for perspective cameras, simply move it further back or adjust the `focal-length`.
 
 [Sample]: https://github.com/mk12/Luminosity/blob/master/Sample.json
 [Parse]: https://github.com/mk12/Luminosity/blob/master/Parse.hs
@@ -58,7 +58,7 @@ Of special note, all colours and vectors are specified as 3-element arrays. Colo
 Image Output
 ------------
 
-For now, the image output format is TGA (TARGA) for its simplicity. Soon, it will be PNG instead.
+For now, the image output format is TGA (Targa) for its simplicity. Soon, it will be PNG instead.
 
 If you are rendering many images, I recommend using a tool such as ImageMagick's `convert` to convert them to PNG. This will save a lot of space, as the TGA files are not compressed.
 
