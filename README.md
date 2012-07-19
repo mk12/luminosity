@@ -1,7 +1,7 @@
 Luminosity
 ==========
 
-![Sample Luminosity render](Sample.tga)
+![Sample Luminosity render](https://github.com/mk12/Luminosity/blob/master/Sample.tga)
 
 Luminosity is a simple and elegant ray tracer written in Haskell.
 
@@ -30,7 +30,7 @@ Compile Luminosity using the `build.sh` script. This will produce a `build` fold
 
 If you want to compile it yourself, take a look inside [build.sh][] to see the command it uses.
 
-[build.sh]: build.sh
+[build.sh]: https://github.com/mk12/Luminosity/blob/master/build.sh
 
 Running
 -------
@@ -103,4 +103,4 @@ Copyright © 2012 Mitchell Kember.
 
 Luminosity is available under the MIT license, see [LICENSE][1] for details.
 
-[1]: LICENSE.md
+[1]: https://github.com/mk12/Luminosity/blob/master/LICENSE.md
