@@ -263,20 +263,12 @@ Use in-line links economically. Documentation is too obtrusive when every last s
 * The user might actually want to click on it for more information (in your judgment), and
 * Only for the first occurrence of each symbol in the comment (don't bother repeating a link)
 
-This counts for type signatures too: don't repeat a link that can already be easily accessed through the type signature.
+This counts for type signatures too: don't repeat a link that can already be easily accessed through the type signature. *Never* link to the function which is currently being documented.
 
 When referring to a familiar data type and you are *not* linking it:
 
-* If it is a common noun, refer to it as such
+* If it is a common noun (e.g. the `Map` type), refer to it as such (e.g. "Construct a map with a single element.")
 * Otherwise, set it in monospaced type and preserve its capitalization
-
-#### Non-linked 
-
-When referring to a familiar data
-
-When referring to a familiar data type which is a common noun, and you are not linking it (it is already in the type signature), do **not** capitalize it.
-
-Refer to familiar data types as common nouns if that is what they are, and they are not being linked.
 
 Naming
 ------
