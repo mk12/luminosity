@@ -33,7 +33,7 @@ If there are multiple equations (patterns) for a function and one has multiple `
 Some examples of correct indentation:
 
 ```haskell
-chisqr :: (Fractional a) => [a] -> [a] -> a
+chisqr :: Fractional a => [a] -> [a] -> a
 chisqr = (sum .) . zipWith chi where chi e o = (o - e) ^ 2 / e
 
 sRGB :: (Floating a, Ord a) => a -> a
@@ -56,9 +56,9 @@ Insert one blank line between top-level definitions. No blank lines between type
 
 **Always** surround binary operators with a single space on each side. This includes sections (i.e. `(+ 1)` rather than `(+1)`). Don't insert a space between a lambda backslash and the first parameter.
 
-### Function Type Signatures
+### Type Signatures/Annotations
 
-**Always** provide a type signature for top-level functions. They may be omitted for short locally defined functions. Always enclose class constraints in parentheses, even if there is only one.
+**Always** provide a type signature for top-level functions. They may be omitted for short locally defined functions. If there is only one class constraint, do **not** enclose it in parentheses.
 
 ### Data Declarations
 
@@ -112,15 +112,34 @@ data Foo = Bar
 Format export lists as follows:
 
 ```haskell
-module Data.Set
-( Set
+module Data.Set (
+  -- * Set type
+  Set
 , empty
 , singleton
+  -- * Querying
 , member
 ) where
 ```
 
-The types and functions in the export list should generally be in the same order that they are defined in the module, not alphabetized.
+or when they are too short to need Haddock headers:
+
+```haskell
+module Data.Colour
+( Colour(..)
+, exposure
+, saturation
+, sRGB
+) where
+```
+
+or when there is only one or two:
+
+```haskell
+module Data.Eq ((==)) where
+```
+
+The symbols in the export list should generally be in the same order that they are defined in the module or vice versa.
 
 ### List Declarations
 
@@ -221,17 +240,15 @@ Comments
 
 Write proper sentences: start with a capital letter and use proper punctuation. Wrap to the same line length as the code, and do not use hyphenation.
 
-When referring to data types which are a common noun, do *not* capitalize them (e.g., "Add two vectors", not "Add two Vectors").
+Avoid redundant comments.
 
 ### Top-Level Definitions
 
-Comment every top-level function (particularly exported functions). For function comments, use the imperative tense, e.g., "Send the ..." rather than "Send**s** the ...". Always use `-- ` comments, not block comments. *Use plain comments*: this project does not use Haddock syntax, for now.
+Comment every top-level function (particularly exported functions). For function comments, use the imperative tense, e.g. "Send the ..." rather than "Send**s** the ...". Do not use block comments. Always use Haddock syntax.
 
 Function documentation should give enough information to apply the function without looking at its definition.
 
-Comments for data type definitions and top-level CAFs (constant applicative forms, i.e. values with no arguments) should typically begin with "A", "An", or "The".
-
-Notes or special considerations should be on a separate line beginning with "Note: ". There should be a blank line separating (preceding) the note.
+Document the individual parameters only if absolutely necessary.
 
 ### End-of-Line Comments
 
@@ -239,15 +256,28 @@ Separate end-of-line comments from the code using *2 spaces*. Align comments on 
 
 In general, avoid end-of-line comments in functions. If you need comments inside a function, it's probably complex enough to be split up into multiple functions.
 
+### Links
+
+Use in-line links economically. You are encouraged to add links for API names. It is not necessary to add links for all API names in a Haddock comment. We therefore recommend adding a link to an API name if:
+
+* The user might actually want to click on it for more information (in your judgment), and
+* Only for the first occurrence of each API name in the comment (don't bother repeating a link)
+
+That last rule counts for type signatures too, i.e. don't repeat a link that can be accessed easily through the type signature as well.
+
+When referring to a familiar data type which is a common noun, and you are not linking it (it is already in the type signature), do **not** capitalize it.
+
+Refer to familiar data types as common nouns if that is what they are, and they are not being linked.
+
 Naming
 ------
 
-Use mixed-case when naming functions and camel-case when naming data
-types.
+Use *mixedCase* when naming functions and *CamelCase* when naming data
+types. Do not use underscores.
 
 For readability reasons, don't capitalize all letters when using an
 abbreviation. For example, write `HttpServer` instead of
-`HTTPServer`. Exception: Two letter abbreviations, e.g., `IO`.
+`HTTPServer`. Exception: two or three letter abbreviations, e.g. `IO` or `RGB`.
 
 ### Modules
 
@@ -255,9 +285,7 @@ Use singular when naming modules, e.g., use `Data.Map` and
 `Data.ByteString.Internal` instead of `Data.Maps` and
 `Data.ByteString.Internals`.
 
-Avoid large modules. Each module should accomplish a specific task. Modules should be named and given responsibilities logically.
-
-The functions within modules should be organized in whichever way makes it easier to follow when reading top to bottom. This usually means functions should be declared before used, but not necessarily. Short functions usually look better near the top of the file, while the real work of the module is done further down.
+Avoid bloated modules. Each module should accomplish a specific task.
 
 Misc
 ----
