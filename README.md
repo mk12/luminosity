@@ -5,6 +5,8 @@ Luminosity is a simple and elegant ray tracer written in Haskell.
 
 ![Sample Luminosity render](http://i.imgur.com/y1a0A.png)
 
+**These instructions are now outdated. Version 1.0 will be out soon with everything updated.**
+
 Dependencies
 ------------
 
