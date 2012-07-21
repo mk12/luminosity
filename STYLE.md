@@ -267,8 +267,8 @@ This counts for type signatures too: don't repeat a link that can already be eas
 
 When referring to a familiar data type and you are *not* linking it:
 
-* If it is a common noun (e.g. the `Map` type), refer to it as such (e.g. "Construct a map with a single element.")
-* Otherwise, set it in monospaced type and preserve its capitalization
+* If it is a common noun (e.g. the `Map` type), refer to it as such (e.g. `-- Construct a map with a single element.`)
+* Otherwise, set it in monospaced type and preserve its capitalization (e.g. `-- Construct a @ByteString@ with a single @Word8@.`)
 
 Naming
 ------
