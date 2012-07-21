@@ -244,17 +244,21 @@ Avoid redundant comments.
 
 ### Top-Level Definitions
 
-Comment every top-level function (particularly exported functions). For function comments, use the imperative tense, e.g. "Send the ..." rather than "Send**s** the ...". Do not use block comments. Always use Haddock syntax.
+#### Functions
+
+Comment every top-level function (particularly exported functions). Use the imperative tense, e.g. "Send the ..." rather than "Send**s** the ...". Do not use block comments. Always use Haddock syntax.
 
 Function documentation should give enough information to apply the function without looking at its definition.
 
 Document the individual parameters only if absolutely necessary.
 
+#### Types
+
 ### End-of-Line Comments
 
 Separate end-of-line comments from the code using *2 spaces*. Align comments on consecutive lines unless it looks bad. Use your judgement.
 
-In general, avoid end-of-line comments in functions. If you need comments inside a function, it's probably complex enough to be split up into multiple functions.
+In general, avoid end-of-line comments in functions. If you need comments inside a function (aside from very short ones), it's probably complex enough to be split up into multiple functions.
 
 ### Links
 
