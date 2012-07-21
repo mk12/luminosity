@@ -1,13 +1,18 @@
--- Copyright 2012 Mitchell Kember.
+-- Copyright 2012 Mitchell Kember
 
-module Trace
-( Scene(..)
+-- | The 'Scene' type, several other types that it contains, and the 'trace'
+-- function for ray tracing scenes. This module is responsible for transforming
+-- a single ray into a colour.
+module Luminosity.Trace (
+-- * Types
+  Scene(..)
 , Settings(..)
 , World(..)
 , Camera(..)
 , Object(..)
 , Light(..)
 , Material(..)
+-- * Ray tracing
 , trace
 ) where
 
@@ -17,10 +22,10 @@ import Data.Monoid ((<>), mconcat, mempty)
 import Data.Ord (comparing)
 import qualified Data.Map as M
 
-import Colour (Colour)
-import Intersect
-import Misc (maybeMinBy)
-import Vector
+import Luminosity.Data.Colour (Colour)
+import Luminosity.Data.Vector
+import Luminosity.Intersect
+import Luminosity.Misc (maybeMinBy)
 
 data Scene = Scene
     { mSettings  :: Settings
@@ -67,21 +72,23 @@ data Material = Material
     , mReflect :: Double
     } deriving (Eq, Show)
 
--- Trace a ray through a scene and compute the final colour for that ray.
-trace :: Scene -> Ray -> Colour
-trace scene ray = trace' scene ray (mDepth $ mSettings scene)
-
--- Calculate all the intersections made by a ray with a list of objects, and
--- return the objects associated with the distance from the ray's origin.
+-- | Calculate all the intersections made by a ray with a list of objects, and
+-- with each object return the point of intersection's distance from the ray's
+-- initial point.
 intersections :: [Object] -> Ray -> [(Object, Scalar)]
 intersections xs r = mapMaybe (\x -> fmap ((,) x) (mSurface x `intersect` r)) xs
 
--- Calculate the closest intersection made by a ray with a list of objects, and
--- return the object associated with the distance from the ray's origin.
+-- | Calculate the nearest intersection made by a ray with a list of objects,
+-- and with each object return the point of intersection's distance from the
+-- ray's initial point. Returns 'Nothing' if no intersections were made.
 fstIntersection :: [Object] -> Ray -> Maybe (Object, Scalar)
 fstIntersection = (maybeMinBy (comparing snd) .) . intersections
 
--- Recursively compute the colour for a ray by tracing it through a scene.
+-- | Trace a ray through a scene and compute its colour.
+trace :: Scene -> Ray -> Colour
+trace scene ray = trace' scene ray (mDepth $ mSettings scene)
+
+-- | Recursive ray tracing implementation used by 'trace'.
 trace' :: Scene -> Ray -> Int -> Colour
 trace' _ _ 0 = mempty
 trace' scene@(Scene _ world _ objs lights mats) ray@(Ray _ v) level
@@ -97,8 +104,14 @@ trace' scene@(Scene _ world _ objs lights mats) ray@(Ray _ v) level
             in if ref == 0 then col
                 else col <> ref *> trace' scene ray' (level - 1)
 
--- Compute the colour that a light source contributes at a particular point.
-lighting :: Material -> Vector -> Vector -> [Object] -> Light -> Colour
+-- | Compute the colour that a light source contributes at a particular point.
+lighting
+    :: Material  -- ^ The material of the object which the point is on.
+    -> Vector    -- ^ The position vector of the point.
+    -> Vector    -- ^ The normal vector of the point.
+    -> [Object]  -- ^ The objects in the scene (for tracing shadows).
+    -> Light     -- ^ The light source.
+    -> Colour    -- ^ The colour that the light source contributes.
 lighting mat p n objs (Light x c)
     | lambert <= 0 || not (null ints) = mempty
     | otherwise = (*) <$> lambert *> c <*> mDiffuse mat

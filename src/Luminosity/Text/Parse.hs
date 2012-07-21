@@ -1,20 +1,34 @@
--- Copyright 2012 Mitchell Kember.
+-- Copyright 2012 Mitchell Kember
 
-module Parse () where
+-- This module deliberately declares orphan instances:
+{-# OPTIONS_GHC -fno-warn-orphans #-}
+
+-- | 'JSON' instances for 'Scene' and all the other types it contains
+-- (including 'Surface' and 'VectorT').
+module Luminosity.Text.Parse () where
 
 import Control.Applicative ((<$>), (<*>))
 import Text.JSON
     (JSON, JSValue(..), Result(..), fromJSObject, makeObj, readJSON, showJSON)
 import qualified Data.Map as M
 
-import Intersect
-import Trace
-import Vector
+import Luminosity.Intersect
+import Luminosity.Trace
+import Luminosity.Data.Vector
 
-lookupM :: (Monad m) => String -> [(String, a)] -> m a
+-- | Same as 'lookup' but generalized to any monad, and fails with a useful
+-- error message.
+--
+-- > lookupM "a" [("b", 1)]  ==  fail "Missing element: a"
+lookupM :: Monad m => String -> [(String, a)] -> m a
 lookupM a as = maybe (fail $ "Missing element: " ++ a) return (lookup a as)
 
-ensure :: (Monad m) => (a -> Bool) -> String -> a -> m a
+-- | Apply a predicate to a monadic value, and fail with the given string if the
+-- predicate fails, otherwise keep the same value.
+--
+-- > return 5000 >>= ensure (> 0) "Failed."  ==  return 5000
+-- > return (-1) >>= ensure (> 0) "Failed."  ==  fail "Failed."
+ensure :: Monad m => (a -> Bool) -> String -> a -> m a
 ensure p s x | p x       = return x
              | otherwise = fail s
 
@@ -74,7 +88,7 @@ instance JSON Camera where
         , ("direction", showJSON v)
         , ("upward", showJSON upward)
         , ("focal-length", showJSON focalLength) ]
-    readJSON (JSObject obj) = case (f "projection") of
+    readJSON (JSObject obj) = case f "projection" of
         Ok "orthographic" -> Orthographic
             <$> (Ray <$> f "position"
             <*> fmap normalize (f "direction"))
@@ -108,7 +122,7 @@ instance JSON Surface where
         [ ("type", showJSON "plane")
         , ("normal", showJSON n)
         , ("distance", showJSON d) ]
-    readJSON (JSObject obj) = case (f "type") of
+    readJSON (JSObject obj) = case f "type" of
         Ok "sphere" -> Sphere <$> f "position" <*> f "radius"
         Ok "plane"  -> Plane  <$> fmap normalize (f "normal") <*> f "distance"
         Ok _        -> fail "Invalid Surface type."

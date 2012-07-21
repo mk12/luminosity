@@ -1,17 +1,20 @@
--- Copyright 2012 Mitchell Kember.
+-- Copyright 2012 Mitchell Kember
 
-module Render (render) where
+-- | The 'render' function and camera projection math. This module is
+-- responsible for tranforming scenes into rendered images ready to be exported.
+module Luminosity.Render (render) where
 
-import Colour (Colour24, saturation, sRGB24)
-import Intersect (Ray(..))
-import Misc (for)
-import Trace
-import Vector
+import Luminosity.Data.Colour (Colour24, saturation, sRGB24)
+import Luminosity.Data.Vector
+import Luminosity.Intersect (Ray(..))
+import Luminosity.Misc (for)
+import Luminosity.Trace
 
+-- | An @(x,y)@ pair to represent a pixel. The coordinates are not integral
+-- because they can also be subpixel coordinates.
 type Pixel = (Scalar, Scalar)
 
--- Calculate the ray to be launched through a given pixel from a camera.
--- Non-integral pixel coordinates can be used for taking subpixel samples.
+-- | Calculate the ray to be launched through a pixel from a camera.
 rayForPixel :: Camera -> Settings -> Pixel -> Ray
 rayForPixel (Orthographic (Ray c look) up scale) settings (x, y)
     = Ray (c <+> v *> up <+> u *> normalize (up >< look)) look
@@ -31,8 +34,8 @@ rayForPixel (Perspective (Ray c look) up len) settings (x, y)
     start = c <+> v *> up <+> u *> normalize (up >< look)
     focus = c <-> len *> look
 
--- Render a scene to a list of 24-bit colours, starting from the top left pixel,
--- going across each row, and ending at the bottom right pixel.
+-- | Render a scene to a list of 24-bit colours in the usual order (row by
+-- row, top to bottom).
 render :: Scene -> [Colour24]
 render scene = for pixels
     $ sRGB24
@@ -41,6 +44,6 @@ render scene = for pixels
     . rayForPixel (mCamera scene) ss
   where
     ss     = mSettings scene
-    rows   = [0..(fromIntegral $ mResolutionY ss) - 1]
-    cols   = [0..(fromIntegral $ mResolutionX ss) - 1]
+    rows   = [0..fromIntegral (mResolutionY ss) - 1]
+    cols   = [0..fromIntegral (mResolutionX ss) - 1]
     pixels = [(x, y) | y <- rows, x <- cols]
