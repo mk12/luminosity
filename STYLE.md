@@ -238,7 +238,7 @@ Use explicit import lists for local imports if only a few things are being impor
 Comments
 --------
 
-Write proper sentences: start with a capital letter and use proper punctuation. Wrap to the same line length as the code, and do not use hyphenation.
+Always write proper sentences: start with a capital letter and use proper punctuation. Wrap to the same line length as the code, and do not use hyphenation.
 
 Avoid redundant comments.
 
@@ -258,12 +258,21 @@ In general, avoid end-of-line comments in functions. If you need comments inside
 
 ### Links
 
-Use in-line links economically. You are encouraged to add links for API names. It is not necessary to add links for all API names in a Haddock comment. We therefore recommend adding a link to an API name if:
+Use in-line links economically. Documentation is too obtrusive when every last symbol is linked. Only use a link if:
 
 * The user might actually want to click on it for more information (in your judgment), and
-* Only for the first occurrence of each API name in the comment (don't bother repeating a link)
+* Only for the first occurrence of each symbol in the comment (don't bother repeating a link)
 
-That last rule counts for type signatures too, i.e. don't repeat a link that can be accessed easily through the type signature as well.
+This counts for type signatures too: don't repeat a link that can already be easily accessed through the type signature.
+
+When referring to a familiar data type and you are *not* linking it:
+
+* If it is a common noun, refer to it as such
+* Otherwise, set it in monospaced type and preserve its capitalization
+
+#### Non-linked 
+
+When referring to a familiar data
 
 When referring to a familiar data type which is a common noun, and you are not linking it (it is already in the type signature), do **not** capitalize it.
 
@@ -282,7 +291,7 @@ abbreviation. For example, write `HttpServer` instead of
 ### Modules
 
 Use singular when naming modules, e.g., use `Data.Map` and
-`Data.ByteString.Internal` instead of `Data.Maps` and
+`Data.ByteString.Internal` rather than `Data.Maps` and
 `Data.ByteString.Internals`.
 
 Avoid bloated modules. Each module should accomplish a specific task.
@@ -292,4 +301,4 @@ Misc
 
 ### Warnings
 
-Be sure to compile with `-Wall`. There should be no warnings unless you have a good reason.
+Compile with `-Wall`. There should be no warnings unless you have a good reason.
