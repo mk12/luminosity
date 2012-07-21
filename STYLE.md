@@ -24,7 +24,7 @@ For functions with short names, put the first guard on the same line and align s
 
 #### Where Bindings
 
-If a single `where` binding is needed for a short function, put it all on one line if possible. If not, indent it four spaces on the next line. If there are multiple `where` bindings, indent the `where` keyword **2 spaces** on its own line, and each binding on its own line indented by *4 spaces*.
+If a single `where` binding is needed for a short function, put it all on one line if possible. If not, indent it four spaces on the next line. If there are multiple `where` bindings, indent the `where` keyword **2 spaces** on its own line, and put each binding on its own line indented by *4 spaces*.
 
 If there are multiple equations (patterns) for a function and one has multiple `where` bindings, use the same style for every equation (`where` on a line by itself, even for just one binding).
 
@@ -50,15 +50,15 @@ intersect (Plane n d) (Ray x v)
 
 ### Blank Lines
 
-Insert one blank line between top-level definitions. No blank lines between type signatures and function definitions. Add one blank line between functions in a type class instance declaration only if the functions bodies are large. Use your judgement.
+Insert one blank line between top-level definitions. No blank lines between type signatures and function definitions. Add one blank line between functions in a type class instance only if the functions bodies are large. Use your judgement.
 
 ### Whitespace
 
-**Always** surround binary operators with a single space on each side. This includes sections (i.e. `(+ 1)` rather than `(+1)`). Don't insert a space between a lambda backslash and the first parameter.
+Always surround binary operators with a single space on each side. This includes sections (i.e. `(+ 1)` rather than `(+1)`). Don't insert a space between a lambda backslash and the first parameter.
 
 ### Type Signatures/Annotations
 
-**Always** provide a type signature for top-level functions. They may be omitted for short locally defined functions. If there is only one class constraint, do **not** enclose it in parentheses.
+Always provide a type signature for top-level functions. They may be omitted for short locally defined functions. If there is only one class constraint, do **not** enclose it in parentheses.
 
 ### Data Declarations
 
@@ -122,14 +122,14 @@ module Data.Set (
 ) where
 ```
 
-or when they are too short to need Haddock headers:
+or when they are too short to need Haddock section headings:
 
 ```haskell
 module Data.Colour
 ( Colour(..)
+, blend
 , exposure
 , saturation
-, sRGB
 ) where
 ```
 
@@ -139,7 +139,7 @@ or when there is only one or two:
 module Data.Eq ((==)) where
 ```
 
-The symbols in the export list should generally be in the same order that they are defined in the module or vice versa.
+The order of the symbols in the export list and the order in which they are defined in the module should generally be the same.
 
 ### List Declarations
 
@@ -225,15 +225,15 @@ Imports
 
 Imports should be grouped in the following order:
 
-1. standard library imports
-2. related third party imports
-3. local application/library specific imports
+1. Standard library imports
+2. Related third party imports
+3. Local application/library imports
 
 Put a blank line between each group of imports. The imports in each group should be sorted alphabetically, by module name. All the `qualified` imports should be at the end of the group, also sorted.
 
 Always use explicit import lists or `qualified` imports for standard and third party libraries. This makes the code more robust against changes in these libraries. Exception: The Prelude.
 
-Use explicit import lists for local imports if only a few things are being imported. If one specific function is being used, definitely use an import list. If nearly every function is used or the functionality of the module as a whole is needed or could be needed (e.g., `import Vector` to use vector math operators), then do not use an import list. Use your judgement.
+Use explicit import lists for local imports if there are only a few symbols being imported and you know you won't have to constantly update it in the future.
 
 Comments
 --------
@@ -244,15 +244,11 @@ Avoid redundant comments.
 
 ### Top-Level Definitions
 
-#### Functions
-
-Comment every top-level function (particularly exported functions). Use the imperative tense, e.g. "Send the ..." rather than "Send**s** the ...". Do not use block comments. Always use Haddock syntax.
+Comment every top-level function. Use the imperative tense, e.g. "Send the ..." rather than "Send**s** the ...". Do not use block comments. Always use Haddock syntax. Document the individual parameters only if absolutely necessary.
 
 Function documentation should give enough information to apply the function without looking at its definition.
 
-Document the individual parameters only if absolutely necessary.
-
-#### Types
+Document all data types as well. Document constructors if necessary.
 
 ### End-of-Line Comments
 
@@ -268,11 +264,6 @@ Use in-line links economically. Documentation is too obtrusive when every last s
 * Only for the first occurrence of each symbol in the comment (don't bother repeating a link)
 
 This counts for type signatures too: don't repeat a link that can already be easily accessed through the type signature. *Never* link to the function which is currently being documented.
-
-When referring to a familiar data type and you are *not* linking it:
-
-* If it is a common noun (e.g. the `Map` type), refer to it as such (e.g. `-- Construct a map with a single element.`)
-* Otherwise, set it in monospaced type and preserve its capitalization (e.g. `-- Construct a @ByteString@ with a single @Word8@.`)
 
 Naming
 ------
