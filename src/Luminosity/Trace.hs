@@ -3,7 +3,8 @@
 -- | The 'Scene' type, several other types that it contains, and the 'trace'
 -- function for ray tracing scenes. This module is responsible for transforming
 -- a single ray into a colour.
-module Luminosity.Trace (
+module Luminosity.Trace
+(
 -- * Types
   Scene(..)
 , Settings(..)
@@ -22,8 +23,8 @@ import Data.Monoid ((<>), mconcat, mempty)
 import Data.Ord (comparing)
 import qualified Data.Map as M
 
-import Luminosity.Data.Colour (Colour)
-import Luminosity.Data.Vector
+import Luminosity.Colour (Colour)
+import Luminosity.Vector
 import Luminosity.Intersect
 import Luminosity.Misc (maybeMinBy)
 

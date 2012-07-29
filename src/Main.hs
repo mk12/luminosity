@@ -9,9 +9,9 @@ import System.IO (hPutStrLn, stderr)
 import Text.JSON (Result(..), decode)
 import qualified Data.ByteString.Lazy as L
 
-import Luminosity.Image.Export (export, extension)
+import Luminosity.Export (export, extension)
 import Luminosity.Render (render)
-import Luminosity.Text.Parse ()
+import Luminosity.Parse ()
 import Luminosity.Trace (Scene, mResolutionX, mResolutionY, mSettings)
 
 -- | The current version string.

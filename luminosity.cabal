@@ -20,7 +20,7 @@ Source-Repository head
 
 Executable luminosity
   Main-is:          Main.hs
-  Other-Modules:    Luminosity.Data.Colour Luminosity.Data.Vector Luminosity.Image.Export Luminosity.Intersect Luminosity.Misc Luminosity.Render Luminosity.Text.Parse Luminosity.Trace
+  Other-Modules:    Luminosity.Colour Luminosity.Export Luminosity.Intersect Luminosity.Misc Luminosity.Parse Luminosity.Render Luminosity.Trace Luminosity.Vector
   hs-Source-Dirs:   src
   Build-Depends:    base == 4.5.*, filepath, containers, bytestring, json, blaze-builder
   ghc-options:      -O2 -fexcess-precision -funbox-strict-fields -Wall -fno-warn-type-defaults
