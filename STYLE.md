@@ -18,24 +18,13 @@ Maximum line length is **80 characters**. No exceptions.
 
 Tabs are illegal. Use **4 spaces** for indentation.
 
-#### Guards
+Indent the `where` keyword *2 spaces* on its own line and indent the definitions within it *2 spaces* further. Exception: if there's only one definition and the whole function fits on one line, go ahead.
 
-For functions with short names, put the first guard on the same line and align subsequent guards underneath. Otherwise, put the each guard on a separate line indented by *4 spaces*. Line up the `=` of each guard unless it creates too much whitespace and looks bad. Use your judgement.
+Put the first guard directly after the parameters if it doesn't stick too far out, otherwise indent them all *4 spaces* on separate lines.
 
-#### Where Bindings
-
-If a single `where` binding is needed for a short function, put it all on one line if possible. If not, indent it four spaces on the next line. If there are multiple `where` bindings, indent the `where` keyword **2 spaces** on its own line, and put each binding on its own line indented by *4 spaces*.
-
-If there are multiple equations (patterns) for a function and one has multiple `where` bindings, use the same style for every equation (`where` on a line by itself, even for just one binding).
-
----
-
-Some examples of correct indentation:
+Some examples:
 
 ```haskell
-chisqr :: Fractional a => [a] -> [a] -> a
-chisqr = (sum .) . zipWith chi where chi e o = (o - e) ^ 2 / e
-
 sRGB :: (Floating a, Ord a) => a -> a
 sRGB x | x <= 0.0031308 = 12.92 * x
        | otherwise      = 1.055 * x ** (1 / 2.4) - 0.055
@@ -48,19 +37,23 @@ intersect (Plane n d) (Ray x v)
     t  = (vnegate x <.> n + d) / vn
 ```
 
+### Alignment
+
+Always try to align things (`=`, `->`, `|`, etc.) unless it creates too much whitespace and looks bad.
+
 ### Blank Lines
 
 Insert one blank line between top-level definitions. No blank lines between type signatures and function definitions. Add one blank line between functions in a type class instance only if the functions bodies are large. Use your judgement.
 
 ### Whitespace
 
-Always surround binary operators with a single space on each side. This includes sections (i.e. `(+ 1)` rather than `(+1)`). Don't insert a space between a lambda backslash and the first parameter.
+Always surround binary operators with a single space on each side. This includes sections (i.e. `(+ 1)` rather than `(+1)`). Don't insert a space after a lambda backslash.
 
 ### Type Signatures/Annotations
 
 Always provide a type signature for top-level functions. They may be omitted for short locally defined functions. If there is only one class constraint, do **not** enclose it in parentheses.
 
-### Data Declarations
+### Data Definitions
 
 Align the constructors in a data type definition. Align the parameter types as well if it looks better that way. Some examples:
 
@@ -84,7 +77,7 @@ data HttpException
 
 #### Records
 
-Use the prefix `m` for names in records to make them easily identifiable and to help avoid name clashing. Align the types for each field in the record. An example:
+Use the prefix `m` for names in records to make them easily identifiable and to help avoid name collisions. Align the types for each field in the record. An example:
 
 ```haskell
 data Person = Person
@@ -112,15 +105,18 @@ data Foo = Bar
 Format export lists as follows:
 
 ```haskell
-module Data.Set (
-  -- * Set type
+module Data.Set
+(
+-- * Set type
   Set
 , empty
 , singleton
-  -- * Querying
+-- * Querying
 , member
 ) where
 ```
+
+*(You may insert a blank line between sections for long import lists.)*
 
 or when they are too short to need Haddock section headings:
 
@@ -136,12 +132,10 @@ module Data.Colour
 or when there is only one or two:
 
 ```haskell
-module Data.Eq ((==)) where
+module Data.Eq (Eq(..)) where
 ```
 
-The order of the symbols in the export list and the order in which they are defined in the module should generally be the same.
-
-### List Declarations
+### List Definitions
 
 Align the elements in the list. Example:
 
@@ -258,12 +252,12 @@ In general, avoid end-of-line comments in functions. If you need comments inside
 
 ### Links
 
-Use in-line links economically. Documentation is too obtrusive when every last symbol is linked. Only use a link if:
+Use in-line links economically. Documentation is too obtrusive when every second word is a linked symbol. Only use a link if:
 
 * The user might actually want to click on it for more information (in your judgment), and
 * Only for the first occurrence of each symbol in the comment (don't bother repeating a link)
 
-This counts for type signatures too: don't repeat a link that can already be easily accessed through the type signature. *Never* link to the function which is currently being documented.
+This counts for type signatures too: don't repeat a link that can already be easily accessed through the type signature. Also, *never* link to the function which is currently being documented.
 
 Naming
 ------

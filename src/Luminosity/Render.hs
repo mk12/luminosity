@@ -4,8 +4,8 @@
 -- responsible for tranforming scenes into rendered images ready to be exported.
 module Luminosity.Render (render) where
 
-import Luminosity.Data.Colour (Colour24, saturation, sRGB24)
-import Luminosity.Data.Vector
+import Luminosity.Colour (Colour24, saturation, sRGB24)
+import Luminosity.Vector
 import Luminosity.Intersect (Ray(..))
 import Luminosity.Misc (for)
 import Luminosity.Trace

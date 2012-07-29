@@ -5,45 +5,42 @@ Luminosity is a simple and elegant ray tracer written in Haskell.
 
 ![Sample Luminosity render](http://i.imgur.com/y1a0A.png)
 
-**These instructions are now outdated. Version 1.0 will be out soon with everything updated.**
-
 Dependencies
 ------------
 
 Before compiling, get Luminosity's dependencies.
 
-```sh
-cabal install json --ghc-options=-DMAP_AS_DICT
-cabal install blaze-builder
-```
+    $ cabal install json --ghc-options=-DMAP_AS_DICT
+    $ cabal install blaze-builder
+
+*Add `--enable-documentation` if you want their symbols to be linked when generating Luminosity's documentation.*
 
 If you already have JSON, make sure to `--reinstall` with the `MAP_AS_DICT` option, otherwise Luminosity won't compile.
 
 Compiling
 ---------
 
-Use the `build.sh` script. This will produce a `build` folder and a `luminosity` executable.
+    $ cabal build
 
-### Options
+The executable will be located in `dist/luminosity`.
 
-* `-t`: Compile with `-threaded` for parallelism
-* `-p`: Compile with profiling enabled
-* `-w`: Compile with `-Wall` (warnings)
+    $ cabal install
 
-If you want to compile yourself, take a look at the end of [build.sh][] to see the command it uses.
+This will install luminosity to your user's local cabal `bin`.
 
-[build.sh]: https://github.com/mk12/Luminosity/blob/master/build.sh
+Documentation
+-------------
+
+    $ cabal haddock --executables --hyperlink-source
+
+Add `--haddock-option=-ignore-all-exports' to see documentation for all functions.
 
 Running
 -------
 
-To render a scene, run the `luminosity` executable:
+    $ luminosity Scene.json Image.tga
 
-```sh
-./luminosity Scene.json Image.tga
-```
-
-You can leave out the file extensions if you want. You can also leave out the second argument—in this case, the image would then be written to `Scene.tga`.
+You can leave out the second argument (in this case the image would be written to `Scene.tga`).
 
 Scene Input
 -----------
@@ -55,14 +52,12 @@ To learn how to write scenes for Luminosity, check out the [Sample][] scene and 
 Of special note, all colours and vectors are specified as 3-element arrays. Colour channels are floating-point (0.0–1.0, not 0–255). The width (and aspect ratio) of the camera is dependant on the resolution in the settings, while the height remains constant. Use `ortho-scale` to increase the size of an orthographic camera, and for perspective cameras, simply move it further back or adjust the `focal-length`.
 
 [Sample]: https://github.com/mk12/Luminosity/blob/master/Sample.json
-[Parse]: https://github.com/mk12/Luminosity/blob/master/Parse.hs
+[Parse]: https://github.com/mk12/Luminosity/blob/master/src/Luminosity/Parse.hs
 
 Image Output
 ------------
 
-For now, the image output format is TGA (Targa) for its simplicity. Soon, it will be PNG instead.
-
-If you are rendering many images, I recommend using a tool such as ImageMagick's `convert` to convert them to PNG. This will save a lot of space, as the TGA files are not compressed.
+For now, the image output format is uncompressed TGA (Targa) for its simplicity. Soon, it will be PNG instead.
 
 Features
 --------
@@ -96,7 +91,7 @@ Features
 Contribute
 ----------
 
-Anyone is welcome to contribute! Please try to tackle one of the planned features listed above, and name your branch appropriately.
+Anyone is welcome to contribute!
 
 License
 -------

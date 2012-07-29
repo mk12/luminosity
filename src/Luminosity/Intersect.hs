@@ -2,7 +2,8 @@
 
 -- | The 'Ray' and 'Surface' types, with some useful operations on them (notably
 -- the 'intersect' function).
-module Luminosity.Intersect (
+module Luminosity.Intersect
+(
 -- * Ray and surface types
   Ray(..)
 , Surface(..)
@@ -15,7 +16,7 @@ module Luminosity.Intersect (
 import Data.List (sort)
 import Data.Maybe (listToMaybe)
 
-import Luminosity.Data.Vector
+import Luminosity.Vector
 
 -- | A half-line in three-dimensional Euclidean space. It consists of an initial
 -- point (represented by a position vector) which extends infinitely in one
