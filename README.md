@@ -13,7 +13,7 @@ Before compiling, get Luminosity's dependencies.
     $ cabal install json --ghc-options=-DMAP_AS_DICT
     $ cabal install blaze-builder
 
-*Add `--enable-documentation` if you want their symbols to be linked when generating Luminosity's documentation.*
+*Add* `--enable-documentation` *if you want their symbols to be linked when generating Luminosity's documentation.*
 
 If you already have JSON, make sure to `--reinstall` with the `MAP_AS_DICT` option, otherwise Luminosity won't compile.
 
@@ -26,14 +26,14 @@ The executable will be located in `dist/luminosity`.
 
     $ cabal install
 
-This will install luminosity to your user's local cabal `bin`.
+This will install Luminosity to your user's local cabal directory.
 
 Documentation
 -------------
 
     $ cabal haddock --executables --hyperlink-source
 
-Add `--haddock-option=-ignore-all-exports' to see documentation for all functions.
+Add `--haddock-option=-ignore-all-exports` to see documentation for all functions.
 
 Running
 -------
