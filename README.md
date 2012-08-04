@@ -96,7 +96,7 @@ Anyone is welcome to contribute!
 License
 -------
 
-Copyright © 2012 Mitchell Kember.
+Copyright © 2012 Mitchell Kember
 
 Luminosity is available under the MIT license, see [LICENSE][] for details.
 
