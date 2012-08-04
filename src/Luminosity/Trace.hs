@@ -1,4 +1,4 @@
--- Copyright 2012 Mitchell Kember
+-- Copyright 2012 Mitchell Kember. Subject to the MIT license.
 
 -- | The 'Scene' type, several other types that it contains, and the 'trace'
 -- function for ray tracing scenes. This module is responsible for transforming

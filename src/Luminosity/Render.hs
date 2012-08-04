@@ -1,4 +1,4 @@
--- Copyright 2012 Mitchell Kember
+-- Copyright 2012 Mitchell Kember. Subject to the MIT license.
 
 -- | The 'render' function and camera projection math. This module is
 -- responsible for tranforming scenes into rendered images ready to be exported.
