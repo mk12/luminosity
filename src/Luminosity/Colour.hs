@@ -1,4 +1,4 @@
--- Copyright 2012 Mitchell Kember
+-- Copyright 2012 Mitchell Kember. Subject to the MIT license.
 
 -- | An extension to "Luminosity.Vector" for the more specific usage of
 -- vectors to represent colours, with some useful operations on them.

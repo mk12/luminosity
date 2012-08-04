@@ -1,4 +1,4 @@
--- Copyright 2012 Mitchell Kember
+-- Copyright 2012 Mitchell Kember. Subject to the MIT license.
 
 -- | The main module.
 module Main (main) where

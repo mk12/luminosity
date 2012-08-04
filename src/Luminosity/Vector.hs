@@ -1,4 +1,4 @@
--- Copyright 2012 Mitchell Kember
+-- Copyright 2012 Mitchell Kember. Subject to the MIT license.
 
 -- | A simple and lightweight module for vector math. The operations satisfy all
 -- the Euclidean vector properties

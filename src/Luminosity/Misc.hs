@@ -1,4 +1,4 @@
--- Copyright 2012 Mitchell Kember
+-- Copyright 2012 Mitchell Kember. Subject to the MIT license.
 
 -- | A collection of useful miscellaneous functions which do not belong in any
 -- other module.
