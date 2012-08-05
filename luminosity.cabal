@@ -1,12 +1,11 @@
 Name:               luminosity
-Version:            1.0
+--Version:            1.0
 Cabal-Version:      >= 1.8
 Synopsis:           A simple and elegant ray tracer
 -- Description:     
 Author:             Mitchell Kember
 Maintainer:         mk12360@gmail.com
-Homepage:           https://github.com/mk12/luminosity
--- Homepage:        http://mk12.github.com/luminosity (mitchellkember.com/luminosity)
+-- Homepage:        mitchellkember.com/luminosity
 Copyright:          Copyright © 2012 Mitchell Kember
 License:            MIT
 License-file:       LICENSE.md
