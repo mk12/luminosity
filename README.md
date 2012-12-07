@@ -88,8 +88,8 @@ Features
 * Procedural and bitmap textures
 * Bump mapping
 
-Contribute
-----------
+Contributing
+------------
 
 Anyone is welcome to contribute!
 
