@@ -98,6 +98,6 @@ License
 
 Copyright © 2012 Mitchell Kember
 
-Luminosity is available under the MIT license, see [LICENSE][] for details.
+Luminosity is available under the MIT license; see [LICENSE][] for details.
 
 [LICENSE]: https://github.com/mk12/luminosity/blob/master/LICENSE.md
