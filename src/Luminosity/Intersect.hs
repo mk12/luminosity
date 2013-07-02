@@ -1,4 +1,4 @@
--- Copyright 2012 Mitchell Kember. Subject to the MIT license.
+-- Copyright 2012 Mitchell Kember. Subject to the MIT License.
 
 -- | The 'Ray' and 'Surface' types, with some useful operations on them (notably
 -- the 'intersect' function).
