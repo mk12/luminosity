@@ -51,8 +51,8 @@ To learn how to write scenes for Luminosity, check out the [Sample][] scene and 
 
 Of special note, all colours and vectors are specified as 3-element arrays. Colour channels are floating-point (0.0–1.0, not 0–255). The width (and aspect ratio) of the camera is dependant on the resolution in the settings, while the height remains constant. Use `ortho-scale` to increase the size of an orthographic camera, and for perspective cameras, simply move it further back or adjust the `focal-length`.
 
-[Sample]: https://github.com/mk12/Luminosity/blob/master/Sample.json
-[Parse]: https://github.com/mk12/Luminosity/blob/master/src/Luminosity/Parse.hs
+[Sample]: Sample.json
+[Parse]: src/Luminosity/Parse.hs
 
 Image Output
 ------------
@@ -98,6 +98,4 @@ License
 
 Copyright © 2012 Mitchell Kember
 
-Luminosity is available under the MIT License; see [LICENSE][] for details.
-
-[LICENSE]: https://github.com/mk12/luminosity/blob/master/LICENSE.md
+Luminosity is available under the MIT License; see [LICENSE](LICENSE.md) for details.
