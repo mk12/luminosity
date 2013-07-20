@@ -42,7 +42,7 @@ Running
 
 You can leave out the second argument (in this case the image would be written to `Scene.tga`).
 
-Scene Input
+Scene input
 -----------
 
 Rather than introducing some custom format, Luminosity uses JSON to describe a scene. JSON is easy to read and there are many existing validation tools.
@@ -54,7 +54,7 @@ Of special note, all colours and vectors are specified as 3-element arrays. Colo
 [Sample]: Sample.json
 [Parse]: src/Luminosity/Parse.hs
 
-Image Output
+Image output
 ------------
 
 For now, the image output format is uncompressed TGA (Targa) for its simplicity. Soon, it will be PNG instead.
@@ -62,31 +62,31 @@ For now, the image output format is uncompressed TGA (Targa) for its simplicity.
 Features
 --------
 
-### Current Features
+### Current features
 
-* JSON scene input
-* TGA image output
-* sRGB conversion
-* Orthographic and perspective projections
-* Sphere and plane primitives
-* Lambert diffuse reflection
-* Ray traced reflection
+- JSON scene input
+- TGA image output
+- sRGB conversion
+- orthographic and perspective projections
+- sphere and plane primitives
+- Lambert diffuse reflection
+- ray traced reflection
 
-### Planned Features
+### Planned features
 
-* PNG image output
-* Parallel rendering
-* Faster rendering (optimized `Vector`)
-* Anti-aliasing (supersampling)
-* Exposure operator (rather than saturation)
-* Blinn–Phong reflection
-* Transparency and refraction
-* Fresnel effect
-* More `Surface`s (Cubes, Cones, Cylinders, Metaballs)
-* Directional light sources
-* Depth of field
-* Procedural and bitmap textures
-* Bump mapping
+- PNG image output
+- parallel rendering
+- faster rendering (optimized `Vector`)
+- anti-aliasing (supersampling)
+- exposure operator (rather than saturation)
+- Blinn–Phong reflection
+- transparency and refraction
+- Fresnel effect
+- more `Surface`s (Cubes, Cones, Cylinders, Metaballs)
+- directional light sources
+- depth of field
+- procedural and bitmap textures
+- bump mapping
 
 Contributing
 ------------
