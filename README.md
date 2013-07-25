@@ -1,12 +1,10 @@
-Luminosity
-==========
+# Luminosity
 
 Luminosity is a simple and elegant ray tracer written in Haskell.
 
 ![Sample Luminosity render](http://i.imgur.com/y1a0A.png)
 
-Dependencies
-------------
+## Dependencies
 
 Before compiling, get Luminosity's dependencies.
 
@@ -17,8 +15,7 @@ Before compiling, get Luminosity's dependencies.
 
 If you already have JSON, make sure to `--reinstall` with the `MAP_AS_DICT` option, otherwise Luminosity won't compile.
 
-Compiling
----------
+## Compiling
 
     $ cabal build
 
@@ -28,22 +25,19 @@ The executable will be located in `dist/luminosity`.
 
 This will install Luminosity to your user's local cabal directory.
 
-Documentation
--------------
+## Documentation
 
     $ cabal haddock --executables --hyperlink-source
 
 Add `--haddock-option=-ignore-all-exports` to see documentation for all functions.
 
-Running
--------
+## Running
 
     $ luminosity Scene.json Image.tga
 
 You can leave out the second argument (in this case the image would be written to `Scene.tga`).
 
-Scene input
------------
+## Scene input
 
 Rather than introducing some custom format, Luminosity uses JSON to describe a scene. JSON is easy to read and there are many existing validation tools.
 
@@ -54,13 +48,11 @@ Of special note, all colours and vectors are specified as 3-element arrays. Colo
 [Sample]: Sample.json
 [Parse]: src/Luminosity/Parse.hs
 
-Image output
-------------
+## Image output
 
 For now, the image output format is uncompressed TGA (Targa) for its simplicity. Soon, it will be PNG instead.
 
-Features
---------
+## Features
 
 ### Current features
 
@@ -88,13 +80,11 @@ Features
 - procedural and bitmap textures
 - bump mapping
 
-Contributing
-------------
+## Contributing
 
 Anyone is welcome to contribute!
 
-License
--------
+## License
 
 Copyright © 2012 Mitchell Kember
 
