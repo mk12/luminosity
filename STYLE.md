@@ -1,16 +1,14 @@
-Haskell Style Guide
-===================
+# Haskell Style Guide
 
-(Adapted from [Johan Tibell's style guide][1]).
+(Adapted from [Johan Tibell's style guide][1].)
 
 This document describes the preferred coding style for this project. When something isn't covered by this guide, you should stay consistent with the style used in existing code.
 
 [1]: https://github.com/tibbe/haskell-style-guide/blob/master/haskell-style.md
 
-Formatting
-----------
+# Formatting
 
-### Line Length
+### Line length
 
 Maximum line length is **80 characters**. No exceptions.
 
@@ -41,7 +39,7 @@ intersect (Plane n d) (Ray x v)
 
 Always try to align things (`=`, `->`, `|`, etc.) unless it creates too much whitespace and looks bad.
 
-### Blank Lines
+### Blank lines
 
 Insert one blank line between top-level definitions. No blank lines between type signatures and function definitions. Add one blank line between functions in a type class instance only if the functions bodies are large. Use your judgement.
 
@@ -49,11 +47,11 @@ Insert one blank line between top-level definitions. No blank lines between type
 
 Always surround binary operators with a single space on each side. This includes sections (i.e. `(+ 1)` rather than `(+1)`). Don't insert a space after a lambda backslash.
 
-### Type Signatures/Annotations
+### Type signatures/annotations
 
 Always provide a type signature for top-level functions. They may be omitted for short locally defined functions. If there is only one class constraint, do **not** enclose it in parentheses.
 
-### Data Definitions
+### Data definitions
 
 Align the constructors in a data type definition. Align the parameter types as well if it looks better that way. Some examples:
 
@@ -100,7 +98,7 @@ data Foo = Bar
     } deriving (Eq, Show)
 ```
 
-### Export Lists
+### Export lists
 
 Format export lists as follows:
 
@@ -135,7 +133,7 @@ or when there is only one or two:
 module Data.Eq (Eq(..)) where
 ```
 
-### List Definitions
+### List definitions
 
 Align the elements in the list. Example:
 
@@ -155,7 +153,7 @@ directions = [ North
              , West ]
 ```
 
-### Hanging Lambdas
+### Hanging lambdas
 
 You may or may not indent the code following a "hanging" lambda. Use your judgement. Some examples:
 
@@ -214,8 +212,7 @@ foo = do
             addCycles 1
 ```
 
-Imports
--------
+## Imports
 
 Imports should be grouped in the following order:
 
@@ -229,14 +226,13 @@ Always use explicit import lists or `qualified` imports for standard and third p
 
 Use explicit import lists for local imports if there are only a few symbols being imported and you know you won't have to constantly update it in the future.
 
-Comments
---------
+## Comments
 
 Always write proper sentences: start with a capital letter and use proper punctuation. Wrap to the same line length as the code, and do not use hyphenation.
 
 Avoid redundant comments.
 
-### Top-Level Definitions
+### Top-level definitions
 
 Comment every top-level function. Use the imperative tense, e.g. "Send the ..." rather than "Send**s** the ...". Do not use block comments. Always use Haddock syntax. Document the individual parameters only if absolutely necessary.
 
@@ -244,7 +240,7 @@ Function documentation should give enough information to apply the function with
 
 Document all data types as well. Document constructors if necessary.
 
-### End-of-Line Comments
+### End-of-Line comments
 
 Separate end-of-line comments from the code using *2 spaces*. Align comments on consecutive lines unless it looks bad. Use your judgement.
 
@@ -259,8 +255,7 @@ Use in-line links economically. Documentation is too obtrusive when every second
 
 This counts for type signatures too: don't repeat a link that can already be easily accessed through the type signature. Also, *never* link to the function which is currently being documented.
 
-Naming
-------
+## Naming
 
 Use *mixedCase* when naming functions and *CamelCase* when naming data
 types. Do not use underscores.
@@ -277,8 +272,7 @@ Use singular when naming modules, e.g., use `Data.Map` and
 
 Avoid bloated modules. Each module should accomplish a specific task.
 
-Misc
-----
+## Misc
 
 ### Warnings
 
