@@ -8,32 +8,32 @@ Luminosity is a simple and elegant ray tracer written in Haskell.
 
 Before compiling, get Luminosity's dependencies.
 
-    $ cabal install json --ghc-options=-DMAP_AS_DICT $ cabal install
-    blaze-builder
+	$ cabal install json --ghc-options=-DMAP_AS_DICT
+	$ cabal install blaze-builder
 
-*Add* `--enable-documentation` *if you want their symbols to be linked when generating Luminosity's documentation.*
+_Add_ `--enable-documentation` _if you want their symbols to be linked when generating Luminosity's documentation._
 
 If you already have JSON, make sure to `--reinstall` with the `MAP_AS_DICT` option, otherwise Luminosity won't compile.
 
 ## Compiling
 
-    $ cabal build
+	$ cabal build
 
 The executable will be located in `dist/luminosity`.
 
-    $ cabal install
+	$ cabal install
 
 This will install Luminosity to your user's local cabal directory.
 
 ## Documentation
 
-    $ cabal haddock --executables --hyperlink-source
+	$ cabal haddock --executables --hyperlink-source
 
 Add `--haddock-option=-ignore-all-exports` to see documentation for all functions.
 
 ## Running
 
-    $ luminosity Scene.json Image.tga
+	$ luminosity Scene.json Image.tga
 
 You can leave out the second argument (in this case the image would be written to `Scene.tga`).
 
