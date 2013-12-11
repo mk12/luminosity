@@ -82,6 +82,6 @@ For now, the image output format is uncompressed TGA (Targa) for its simplicity.
 
 ## License
 
-Copyright © 2012 Mitchell Kember
+© 2012 Mitchell Kember
 
 Luminosity is available under the MIT License; see [LICENSE](LICENSE.md) for details.
